@@ -24,6 +24,16 @@ use App\Http\Controllers\ProductController;
 // Home route
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
+// Profile routes
+Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+// Dashboard route
+Route::get('/dashboard', function() {
+    return redirect()->route('profile.edit');
+})->name('dashboard');
+
 // Product routes
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');
 Route::get('/products/{slug}', [ProductController::class, 'show'])->name('products.show');
@@ -44,6 +54,9 @@ Route::get('/orders/{orderNumber}', [OrderController::class, 'show'])->name('ord
 
 // Admin routes for product and category management
 Route::prefix('admin')->middleware('auth')->group(function() {
+    // Admin dashboard
+    Route::get('/dashboard', [App\Http\Controllers\AdminDashboardController::class, 'index'])->name('admin.dashboard');
+    
     Route::resource('products', ProductAdminController::class)->names([
         'index' => 'admin.products.index',
         'show' => 'admin.products.show',
