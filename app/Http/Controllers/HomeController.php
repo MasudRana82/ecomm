@@ -17,7 +17,7 @@ class HomeController extends Controller
         $products = Product::with('category')
             ->where('is_active', true)
             ->where('is_featured', true)
-            ->limit(10)  // Changed back to limit for homepage, no pagination needed
+            ->limit(20)     // Changed back to limit for homepage, no pagination needed
             ->get();
             
         // Get all categories

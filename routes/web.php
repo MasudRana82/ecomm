@@ -53,7 +53,7 @@ Route::get('/orders', [OrderController::class, 'index'])->name('orders.index')->
 Route::get('/orders/{orderNumber}', [OrderController::class, 'show'])->name('orders.show')->middleware('auth');
 
 // Admin routes for product and category management
-Route::prefix('admin')->middleware('auth')->group(function() {
+Route::prefix('admin')->middleware(['auth', 'admin'])->group(function() {
     // Admin dashboard
     Route::get('/dashboard', [App\Http\Controllers\AdminDashboardController::class, 'index'])->name('admin.dashboard');
     
