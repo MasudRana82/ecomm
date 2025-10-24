@@ -161,7 +161,7 @@
                     </div>
                 </div>
                 <div class="border-t border-gray-700 mt-8 pt-6 text-center text-gray-500">
-                    &copy; {{ date('Y') }} GhorerBazar. All Rights Reserved.
+                    &copy; {{ date('Y') }} GhorerBazar. All Rights Reserved. Developed by Bitesoftsolution.
                 </div>
             </div>
         </footer>

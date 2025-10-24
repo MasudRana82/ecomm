@@ -4,7 +4,7 @@
 <!-- Banner Section -->
 <section class="mb-12">
     <div class="bg-yellow-200 rounded-lg overflow-hidden h-48 md:h-64 lg:h-80 flex items-center justify-center">
-        <img src="https://placehold.co/1200x320/FBBF24/333333?text=Organic+%26+Fresh+Products" alt="Promotional Banner" class="w-full h-full object-cover">
+        <img src="https://ghorerbazar.com/cdn/shop/files/web-Banner.jpg?v=1756728692" alt="Promotional Banner" class="w-full h-full object-cover">
     </div>
 </section>
 
