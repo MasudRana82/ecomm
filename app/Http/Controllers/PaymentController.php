@@ -17,7 +17,11 @@ class PaymentController extends Controller
             'payment_method' => 'required|string|in:cash_on_delivery,credit_card,bkash,nagad'
         ]);
 
-        $order = Order::where('order_number', $orderNumber)->where('user_id', auth()->id())->firstOrFail();
+        if (auth()->check()) {
+            $order = Order::where('order_number', $orderNumber)->where('user_id', auth()->id())->firstOrFail();
+        } else {
+            $order = Order::where('order_number', $orderNumber)->whereNull('user_id')->firstOrFail();
+        }
 
         // For demo purposes, we'll just update the payment status based on method
         $paymentStatus = 'paid';
@@ -166,7 +170,11 @@ class PaymentController extends Controller
      */
     public function paymentSuccess(Request $request, $orderNumber)
     {
-        $order = Order::where('order_number', $orderNumber)->where('user_id', auth()->id())->firstOrFail();
+        if (auth()->check()) {
+            $order = Order::where('order_number', $orderNumber)->where('user_id', auth()->id())->firstOrFail();
+        } else {
+            $order = Order::where('order_number', $orderNumber)->whereNull('user_id')->firstOrFail();
+        }
         
         $order->update([
             'payment_status' => 'paid',
@@ -182,7 +190,11 @@ class PaymentController extends Controller
      */
     public function paymentFailure(Request $request, $orderNumber)
     {
-        $order = Order::where('order_number', $orderNumber)->where('user_id', auth()->id())->firstOrFail();
+        if (auth()->check()) {
+            $order = Order::where('order_number', $orderNumber)->where('user_id', auth()->id())->firstOrFail();
+        } else {
+            $order = Order::where('order_number', $orderNumber)->whereNull('user_id')->firstOrFail();
+        }
         
         $order->update([
             'payment_status' => 'failed',
@@ -198,7 +210,11 @@ class PaymentController extends Controller
      */
     public function paymentCancel(Request $request, $orderNumber)
     {
-        $order = Order::where('order_number', $orderNumber)->where('user_id', auth()->id())->firstOrFail();
+        if (auth()->check()) {
+            $order = Order::where('order_number', $orderNumber)->where('user_id', auth()->id())->firstOrFail();
+        } else {
+            $order = Order::where('order_number', $orderNumber)->whereNull('user_id')->firstOrFail();
+        }
         
         return redirect()->route('orders.show', $order->order_number)
             ->with('info', 'Payment was cancelled. You can try again.');

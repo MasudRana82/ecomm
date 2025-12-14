@@ -21,18 +21,23 @@ class OrderController extends Controller
 
     public function show($orderNumber)
     {
-        $order = Order::where('order_number', $orderNumber)->where('user_id', Auth::id())->firstOrFail();
+        if (Auth::check()) {
+            $order = Order::where('order_number', $orderNumber)->where('user_id', Auth::id())->firstOrFail();
+        } else {
+            $order = Order::where('order_number', $orderNumber)->whereNull('user_id')->firstOrFail();
+        }
         
         return view('orders.show', compact('order'));
     }
 
     public function checkout()
     {
-        if (!Auth::check()) {
-            return redirect()->route('login')->with('error', 'Please login to checkout');
+        // Get cart items based on authentication status
+        if (Auth::check()) {
+            $cartItems = Cart::with('product')->where('user_id', Auth::id())->get();
+        } else {
+            $cartItems = Cart::with('product')->where('session_id', session()->getId())->get();
         }
-
-        $cartItems = Cart::with('product')->where('user_id', Auth::id())->get();
         
         if ($cartItems->isEmpty()) {
             return redirect()->route('cart.index')->with('error', 'Your cart is empty');
@@ -57,7 +62,12 @@ class OrderController extends Controller
             'payment_method' => 'required|string',
         ]);
 
-        $cartItems = Cart::with('product')->where('user_id', Auth::id())->get();
+        // Get cart items based on authentication status
+        if (Auth::check()) {
+            $cartItems = Cart::with('product')->where('user_id', Auth::id())->get();
+        } else {
+            $cartItems = Cart::with('product')->where('session_id', session()->getId())->get();
+        }
         
         if ($cartItems->isEmpty()) {
             return response()->json(['success' => false, 'message' => 'Cart is empty']);
@@ -74,7 +84,7 @@ class OrderController extends Controller
         // Create order
         $order = Order::create([
             'order_number' => 'ORD-' . strtoupper(Str::random(8)),
-            'user_id' => Auth::id(),
+            'user_id' => Auth::check() ? Auth::id() : null,
             'subtotal' => $subtotal,
             'tax' => $tax,
             'shipping' => $shipping,
@@ -101,7 +111,11 @@ class OrderController extends Controller
         }
 
         // Clear cart
-        Cart::where('user_id', Auth::id())->delete();
+        if (Auth::check()) {
+            Cart::where('user_id', Auth::id())->delete();
+        } else {
+            Cart::where('session_id', session()->getId())->delete();
+        }
 
         // Process payment based on method
         if ($request->payment_method === 'cash_on_delivery') {

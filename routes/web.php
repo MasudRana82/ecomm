@@ -61,10 +61,10 @@ Route::delete('/cart/remove/{id}', [CartController::class, 'remove'])->name('car
 Route::get('/cart/data', [CartController::class, 'getCartData'])->name('cart.data');
 
 // Checkout routes
-Route::get('/checkout', [OrderController::class, 'checkout'])->name('checkout')->middleware('auth');
-Route::post('/orders', [OrderController::class, 'store'])->name('orders.store')->middleware('auth');
+Route::get('/checkout', [OrderController::class, 'checkout'])->name('checkout');
+Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
 Route::get('/orders', [OrderController::class, 'index'])->name('orders.index')->middleware('auth');
-Route::get('/orders/{orderNumber}', [OrderController::class, 'show'])->name('orders.show')->middleware('auth');
+Route::get('/orders/{orderNumber}', [OrderController::class, 'show'])->name('orders.show');
 
 // Admin routes for product and category management
 Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
@@ -101,10 +101,10 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
 });
 
 // Payment routes
-Route::post('/payment/process/{orderNumber}', [PaymentController::class, 'processPayment'])->name('payment.process')->middleware('auth');
-Route::get('/payment/success/{orderNumber}', [PaymentController::class, 'paymentSuccess'])->name('payment.success')->middleware('auth');
-Route::get('/payment/failure/{orderNumber}', [PaymentController::class, 'paymentFailure'])->name('payment.failure')->middleware('auth');
-Route::get('/payment/cancel/{orderNumber}', [PaymentController::class, 'paymentCancel'])->name('payment.cancel')->middleware('auth');
+Route::post('/payment/process/{orderNumber}', [PaymentController::class, 'processPayment'])->name('payment.process');
+Route::get('/payment/success/{orderNumber}', [PaymentController::class, 'paymentSuccess'])->name('payment.success');
+Route::get('/payment/failure/{orderNumber}', [PaymentController::class, 'paymentFailure'])->name('payment.failure');
+Route::get('/payment/cancel/{orderNumber}', [PaymentController::class, 'paymentCancel'])->name('payment.cancel');
 
 // Include Breeze authentication routes
 require __DIR__ . '/auth.php';

@@ -11,11 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        if (!Schema::hasColumn('categories', 'parent_id')) {
-            Schema::table('categories', function (Blueprint $table) {
-                $table->unsignedBigInteger('parent_id')->nullable()->after('image');
-            });
-        }
+        Schema::table('orders', function (Blueprint $table) {
+            $table->unsignedBigInteger('user_id')->nullable()->change();
+        });
     }
 
     /**
@@ -23,8 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('categories', function (Blueprint $table) {
-            $table->dropColumn('parent_id');
+        Schema::table('orders', function (Blueprint $table) {
+            $table->unsignedBigInteger('user_id')->nullable(false)->change();
         });
     }
 };
