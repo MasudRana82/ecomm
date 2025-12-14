@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -9,117 +10,161 @@
 
     <!-- Scripts and Styles -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    
+
     <!-- Additional styles -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
 </head>
-<body class="font-sans antialiased bg-gray-50">
-    <div class="flex min-h-screen">
+
+<body class="font-sans antialiased bg-gray-100">
+    <div class="flex min-h-screen relative">
         <!-- Sidebar -->
-        <div class="w-64 bg-gray-800 transition duration-300 ease-in-out transform -translate-x-full lg:translate-x-0 lg:static lg:z-auto lg:w-64 lg:block fixed lg:relative lg:inset-y-0 lg:block z-30" id="sidebar">
-            <div class="p-4 h-full">
-                <h2 class="text-xl font-bold mb-6 text-white">Admin Panel</h2>
-                <nav>
-                    <ul class="space-y-2">
-                        <li>
-                            <a href="{{ route('admin.dashboard') }}" 
-                               class="flex items-center p-2 rounded-lg text-white hover:bg-gray-700 {{ request()->routeIs('admin.dashboard') ? 'bg-blue-600' : '' }}">
-                                <i class="fas fa-tachometer-alt mr-3"></i>
-                                <span>Dashboard</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{ route('admin.products.index') }}" 
-                               class="flex items-center p-2 rounded-lg text-white hover:bg-gray-700 {{ request()->routeIs('admin.products.*') ? 'bg-blue-600' : '' }}">
-                                <i class="fas fa-box mr-3"></i>
-                                <span>Products</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{ route('admin.categories.index') }}" 
-                               class="flex items-center p-2 rounded-lg text-white hover:bg-gray-700 {{ request()->routeIs('admin.categories.*') ? 'bg-blue-600' : '' }}">
-                                <i class="fas fa-tags mr-3"></i>
-                                <span>Categories</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{ route('admin.orders.index') }}" 
-                               class="flex items-center p-2 rounded-lg text-white hover:bg-gray-700 {{ request()->routeIs('admin.orders.*') ? 'bg-blue-600' : '' }}">
-                                <i class="fas fa-shopping-cart mr-3"></i>
-                                <span>Orders</span>
-                            </a>
-                        </li>
-                    </ul>
+        <div class="fixed inset-y-0 left-0 z-30 w-64 bg-slate-900 text-white transition-transform duration-300 ease-in-out transform -translate-x-full lg:translate-x-0 lg:static lg:inset-0"
+            id="sidebar">
+            <div class="flex flex-col h-full">
+                <div class="flex items-center justify-center h-16 bg-slate-950 px-4 shadow-md">
+                    <h2 class="text-xl font-bold tracking-wider uppercase text-blue-400">Admin Panel</h2>
+                </div>
+
+                <nav class="flex-1 px-4 py-6 space-y-2 overflow-y-auto">
+                    <a href="{{ route('admin.dashboard') }}"
+                        class="flex items-center px-4 py-3 rounded-lg transition-colors duration-200 {{ request()->routeIs('admin.dashboard') ? 'bg-blue-600 text-white shadow-lg' : 'text-slate-300 hover:bg-slate-800 hover:text-white' }}">
+                        <i class="fas fa-tachometer-alt w-6"></i>
+                        <span class="font-medium">Dashboard</span>
+                    </a>
+
+                    <a href="{{ route('admin.products.index') }}"
+                        class="flex items-center px-4 py-3 rounded-lg transition-colors duration-200 {{ request()->routeIs('admin.products.*') ? 'bg-blue-600 text-white shadow-lg' : 'text-slate-300 hover:bg-slate-800 hover:text-white' }}">
+                        <i class="fas fa-box w-6"></i>
+                        <span class="font-medium">Products</span>
+                    </a>
+
+                    <a href="{{ route('admin.categories.index') }}"
+                        class="flex items-center px-4 py-3 rounded-lg transition-colors duration-200 {{ request()->routeIs('admin.categories.*') ? 'bg-blue-600 text-white shadow-lg' : 'text-slate-300 hover:bg-slate-800 hover:text-white' }}">
+                        <i class="fas fa-tags w-6"></i>
+                        <span class="font-medium">Categories</span>
+                    </a>
+
+                    <a href="{{ route('admin.orders.index') }}"
+                        class="flex items-center px-4 py-3 rounded-lg transition-colors duration-200 {{ request()->routeIs('admin.orders.*') ? 'bg-blue-600 text-white shadow-lg' : 'text-slate-300 hover:bg-slate-800 hover:text-white' }}">
+                        <i class="fas fa-shopping-cart w-6"></i>
+                        <span class="font-medium">Orders</span>
+                    </a>
                 </nav>
+
+                <div class="p-4 border-t border-slate-800">
+                    <a href="{{ route('home') }}"
+                        class="flex items-center px-4 py-2 text-sm text-slate-400 hover:text-white transition-colors duration-200">
+                        <i class="fas fa-sign-out-alt w-6"></i>
+                        <span>Exit to Store</span>
+                    </a>
+                </div>
             </div>
         </div>
 
         <!-- Mobile overlay -->
-        <div class="fixed inset-0 z-20 bg-black bg-opacity-50 hidden lg:hidden" id="overlay"></div>
+        <div class="fixed inset-0 z-20 bg-black bg-opacity-50 transition-opacity duration-300 opacity-0 pointer-events-none lg:hidden"
+            id="overlay"></div>
 
         <!-- Main Content -->
-        <div class="flex-1 lg:ml-0">
+        <div class="flex-1 flex flex-col min-w-0 bg-gray-100 lg:ml-0 transition-all duration-300">
             <!-- Admin Header -->
             <header class="bg-white shadow-sm sticky top-0 z-10">
-                <div class="max-w-7xl mx-auto px-4 py-4 sm:px-6 lg:px-8 flex justify-between items-center">
+                <div class="px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center h-16">
                     <div class="flex items-center">
-                        <button id="sidebar-toggle" class="lg:hidden text-gray-500 hover:text-gray-700 mr-4">
-                            <i class="fas fa-bars text-2xl"></i>
+                        <button id="sidebar-toggle"
+                            class="lg:hidden text-gray-500 hover:text-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500 mr-4">
+                            <span class="sr-only">Open sidebar</span>
+                            <i class="fas fa-bars text-xl"></i>
                         </button>
-                        <h1 class="text-xl font-bold text-gray-900">
-                            {{ $title ?? 'Admin Dashboard' }}
+                        <h1 class="text-xl font-semibold text-gray-800">
+                            {{ $title ?? 'Dashboard' }}
                         </h1>
                     </div>
-                    <div>
-                        <a href="{{ route('home') }}" class="text-custom-orange hover:text-orange-700 flex items-center">
-                            <i class="fas fa-arrow-left mr-2"></i>Back to Store
-                        </a>
+
+                    <div class="flex items-center space-x-4">
+                        <!-- User Profile Dropdown or Info could go here -->
+                        <div class="flex items-center text-sm font-medium text-gray-700">
+                            <span class="hidden sm:inline-block mr-2">Admin</span>
+                            <div
+                                class="h-8 w-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600">
+                                <i class="fas fa-user"></i>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </header>
 
             <!-- Page Content -->
-            <main class="py-6">
+            <main class="flex-1 py-8">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    @if(session('success'))
-                        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
-                            {{ session('success') }}
+                    @if (session('success'))
+                        <div class="bg-green-50 border-l-4 border-green-500 p-4 mb-6 rounded-r-md shadow-sm">
+                            <div class="flex">
+                                <div class="flex-shrink-0">
+                                    <i class="fas fa-check-circle text-green-400"></i>
+                                </div>
+                                <div class="ml-3">
+                                    <p class="text-sm text-green-700">{{ session('success') }}</p>
+                                </div>
+                            </div>
                         </div>
                     @endif
 
-                    @if(session('error'))
-                        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-                            {{ session('error') }}
+                    @if (session('error'))
+                        <div class="bg-red-50 border-l-4 border-red-500 p-4 mb-6 rounded-r-md shadow-sm">
+                            <div class="flex">
+                                <div class="flex-shrink-0">
+                                    <i class="fas fa-exclamation-circle text-red-400"></i>
+                                </div>
+                                <div class="ml-3">
+                                    <p class="text-sm text-red-700">{{ session('error') }}</p>
+                                </div>
+                            </div>
                         </div>
                     @endif
-                    
+
                     @yield('content')
                 </div>
             </main>
         </div>
     </div>
-    
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const sidebar = document.getElementById('sidebar');
             const overlay = document.getElementById('overlay');
             const sidebarToggle = document.getElementById('sidebar-toggle');
-            
+            let isSidebarOpen = false;
+
             function toggleSidebar() {
-                sidebar.classList.toggle('-translate-x-full');
-                overlay.classList.toggle('hidden');
+                isSidebarOpen = !isSidebarOpen;
+                if (isSidebarOpen) {
+                    sidebar.classList.remove('-translate-x-full');
+                    overlay.classList.remove('opacity-0', 'pointer-events-none');
+                    document.body.style.overflow = 'hidden'; // Prevent scrolling when menu is open
+                } else {
+                    sidebar.classList.add('-translate-x-full');
+                    overlay.classList.add('opacity-0', 'pointer-events-none');
+                    document.body.style.overflow = '';
+                }
             }
-            
+
             sidebarToggle.addEventListener('click', function(e) {
                 e.preventDefault();
                 toggleSidebar();
             });
-            
+
             overlay.addEventListener('click', toggleSidebar);
         });
     </script>
-    
+
     @stack('scripts')
 </body>
+
 </html>
