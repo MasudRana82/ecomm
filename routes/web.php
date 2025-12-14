@@ -22,6 +22,19 @@ use App\Http\Controllers\ProfileController;
 |
 */
 
+// Add this to routes/web.php
+Route::get('/link-storage', function () {
+    $targetFolder = storage_path('app/public');
+    $linkFolder = $_SERVER['DOCUMENT_ROOT'] . '/storage';
+
+    if (!file_exists($linkFolder)) {
+        symlink($targetFolder, $linkFolder);
+        return 'Symlink created successfully.';
+    } else {
+        return 'Symlink already exists.';
+    }
+});
+
 // Home route
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -31,7 +44,7 @@ Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.up
 Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy')->middleware('auth');
 
 // Dashboard route
-Route::get('/dashboard', function() {
+Route::get('/dashboard', function () {
     return redirect()->route('profile.edit');
 })->name('dashboard');
 
@@ -54,10 +67,10 @@ Route::get('/orders', [OrderController::class, 'index'])->name('orders.index')->
 Route::get('/orders/{orderNumber}', [OrderController::class, 'show'])->name('orders.show')->middleware('auth');
 
 // Admin routes for product and category management
-Route::prefix('admin')->middleware(['auth', 'admin'])->group(function() {
+Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     // Admin dashboard
     Route::get('/dashboard', [App\Http\Controllers\AdminDashboardController::class, 'index'])->name('admin.dashboard');
-    
+
     Route::resource('products', ProductAdminController::class)->names([
         'index' => 'admin.products.index',
         'show' => 'admin.products.show',
@@ -94,7 +107,7 @@ Route::get('/payment/failure/{orderNumber}', [PaymentController::class, 'payment
 Route::get('/payment/cancel/{orderNumber}', [PaymentController::class, 'paymentCancel'])->name('payment.cancel')->middleware('auth');
 
 // Include Breeze authentication routes
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
 
 // Category routes
 Route::get('/category/{slug}', [App\Http\Controllers\CategoryController::class, 'show'])->name('category.show');
