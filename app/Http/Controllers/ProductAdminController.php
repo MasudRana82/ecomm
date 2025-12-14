@@ -35,6 +35,8 @@ class ProductAdminController extends Controller
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'images' => 'nullable|array',
             'images.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'colors' => 'nullable|string', // Comma separated string
+            'sizes' => 'nullable|string', // Comma separated string
             'is_active' => 'boolean',
             'is_featured' => 'boolean',
         ]);
@@ -43,6 +45,19 @@ class ProductAdminController extends Controller
         $productData['slug'] = Str::slug($request->name);
         $productData['is_active'] = $request->has('is_active');
         $productData['is_featured'] = $request->has('is_featured');
+        
+        // Process colors and sizes from comma-separated string to array
+        if ($request->has('colors') && $request->colors) {
+            $productData['colors'] = array_map('trim', explode(',', $request->colors));
+        } else {
+            $productData['colors'] = null;
+        }
+
+        if ($request->has('sizes') && $request->sizes) {
+            $productData['sizes'] = array_map('trim', explode(',', $request->sizes));
+        } else {
+            $productData['sizes'] = null;
+        }
 
         $product = Product::create($productData);
 
@@ -86,6 +101,8 @@ class ProductAdminController extends Controller
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'images' => 'nullable|array',
             'images.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'colors' => 'nullable|string', // Comma separated string
+            'sizes' => 'nullable|string', // Comma separated string
             'is_active' => 'boolean',
             'is_featured' => 'boolean',
         ]);
@@ -94,6 +111,19 @@ class ProductAdminController extends Controller
         $productData['slug'] = Str::slug($request->name);
         $productData['is_active'] = $request->has('is_active');
         $productData['is_featured'] = $request->has('is_featured');
+
+        // Process colors and sizes from comma-separated string to array
+        if ($request->has('colors') && $request->colors) {
+            $productData['colors'] = array_map('trim', explode(',', $request->colors));
+        } else {
+            $productData['colors'] = null;
+        }
+
+        if ($request->has('sizes') && $request->sizes) {
+            $productData['sizes'] = array_map('trim', explode(',', $request->sizes));
+        } else {
+            $productData['sizes'] = null;
+        }
 
         $product->update($productData);
 

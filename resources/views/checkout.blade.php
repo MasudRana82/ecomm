@@ -32,6 +32,12 @@
                                             <p class="ml-4">৳{{ number_format($item->price, 2) }}</p>
                                         </div>
                                         <p class="mt-1 text-sm text-gray-500">Qty: {{ $item->quantity }}</p>
+                                        @if($item->color)
+                                        <p class="text-sm text-gray-500">Color: {{ $item->color }}</p>
+                                        @endif
+                                        @if($item->size)
+                                        <p class="text-sm text-gray-500">Size: {{ $item->size }}</p>
+                                        @endif
                                     </div>
                                 </div>
                             </div>

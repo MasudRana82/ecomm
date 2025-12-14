@@ -24,11 +24,15 @@ class Product extends Model
         'is_featured',
         'image',
         'images',
+        'colors',
+        'sizes',
         'category_id',
     ];
 
     protected $casts = [
         'images' => 'array',
+        'colors' => 'array',
+        'sizes' => 'array',
         'price' => 'decimal:2',
         'compare_price' => 'decimal:2',
     ];

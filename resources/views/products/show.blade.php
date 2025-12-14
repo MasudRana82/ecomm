@@ -102,6 +102,39 @@
                         </div>
                     </div>
 
+                    <!-- Options (Color & Size) -->
+                    @if($product->colors && count($product->colors) > 0)
+                    <div class="mb-4">
+                        <h3 class="text-sm font-medium text-gray-900 mb-2">Select Color</h3>
+                        <div class="flex flex-wrap gap-2">
+                            @foreach($product->colors as $color)
+                            <label class="cursor-pointer">
+                                <input type="radio" name="color" value="{{ $color }}" class="peer sr-only">
+                                <div class="px-3 py-1 border border-gray-300 rounded-md peer-checked:border-custom-orange peer-checked:bg-orange-50 peer-checked:text-custom-orange hover:border-gray-400 transition-colors">
+                                    {{ $color }}
+                                </div>
+                            </label>
+                            @endforeach
+                        </div>
+                    </div>
+                    @endif
+
+                    @if($product->sizes && count($product->sizes) > 0)
+                    <div class="mb-6">
+                        <h3 class="text-sm font-medium text-gray-900 mb-2">Select Size</h3>
+                        <div class="flex flex-wrap gap-2">
+                            @foreach($product->sizes as $size)
+                            <label class="cursor-pointer">
+                                <input type="radio" name="size" value="{{ $size }}" class="peer sr-only">
+                                <div class="px-3 py-1 border border-gray-300 rounded-md peer-checked:border-custom-orange peer-checked:bg-orange-50 peer-checked:text-custom-orange hover:border-gray-400 transition-colors">
+                                    {{ $size }}
+                                </div>
+                            </label>
+                            @endforeach
+                        </div>
+                    </div>
+                    @endif
+
                     <!-- Quantity and Add to Cart -->
                     <div class="mb-8">
                         <div class="flex items-center mb-4">
@@ -188,6 +221,23 @@
                     quantityInput.value = maxQty;
                     return;
                 }
+                
+                // Get selected color and size
+                let color = null;
+                const colorInput = document.querySelector('input[name="color"]:checked');
+                if (document.querySelector('input[name="color"]') && !colorInput) {
+                    alert('Please select a color');
+                    return;
+                }
+                if (colorInput) color = colorInput.value;
+
+                let size = null;
+                const sizeInput = document.querySelector('input[name="size"]:checked');
+                if (document.querySelector('input[name="size"]') && !sizeInput) {
+                    alert('Please select a size');
+                    return;
+                }
+                if (sizeInput) size = sizeInput.value;
 
                 fetch('{{ route('cart.add') }}', {
                         method: 'POST',
@@ -198,7 +248,9 @@
                         },
                         body: JSON.stringify({
                             product_id: productId,
-                            quantity: quantity
+                            quantity: quantity,
+                            color: color,
+                            size: size
                         })
                     })
                     .then(response => response.json())

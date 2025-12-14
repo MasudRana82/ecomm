@@ -120,6 +120,12 @@
                         <tr>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="text-sm font-medium text-gray-900">{{ $item->product->name ?? 'N/A' }}</div>
+                                @if($item->color)
+                                    <div class="text-xs text-gray-500">Color: {{ $item->color }}</div>
+                                @endif
+                                @if($item->size)
+                                    <div class="text-xs text-gray-500">Size: {{ $item->size }}</div>
+                                @endif
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                 ৳{{ number_format($item->price, 2) }}

@@ -103,6 +103,8 @@ class OrderController extends Controller
                 'quantity' => $item->quantity,
                 'price' => $item->price,
                 'total' => $item->quantity * $item->price,
+                'color' => $item->color,
+                'size' => $item->size,
             ]);
             
             // Reduce product stock

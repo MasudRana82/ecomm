@@ -68,6 +68,24 @@
                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                     @enderror
                 </div>
+
+                <div>
+                    <label for="colors" class="block text-sm font-medium text-gray-700">Colors (Comma separated)</label>
+                    <input type="text" name="colors" id="colors" value="{{ old('colors') }}" placeholder="Red, Blue, Green" class="form-input mt-1">
+                    <p class="mt-1 text-xs text-gray-500">e.g. Red, Blue, Green</p>
+                    @error('colors')
+                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <div>
+                    <label for="sizes" class="block text-sm font-medium text-gray-700">Sizes (Comma separated)</label>
+                    <input type="text" name="sizes" id="sizes" value="{{ old('sizes') }}" placeholder="S, M, L, XL" class="form-input mt-1">
+                    <p class="mt-1 text-xs text-gray-500">e.g. S, M, L, XL</p>
+                    @error('sizes')
+                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                    @enderror
+                </div>
             </div>
             
             <!-- Right Column -->
