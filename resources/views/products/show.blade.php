@@ -116,16 +116,26 @@
                             </div>
                         </div>
 
-                        <button id="add-to-cart"
-                            class="w-full bg-custom-orange text-white py-3 rounded-md hover:bg-custom-orange-dark transition-colors duration-300"
-                            data-product-id="{{ $product->id }}" data-product-name="{{ $product->name }}"
-                            @if ($product->quantity <= 0) disabled @endif>
+                        <div class="flex gap-4">
+                            <button id="add-to-cart"
+                                class="flex-1 bg-custom-orange text-white py-3 rounded-md hover:bg-custom-orange-dark transition-colors duration-300"
+                                data-product-id="{{ $product->id }}" data-product-name="{{ $product->name }}"
+                                @if ($product->quantity <= 0) disabled @endif>
+                                @if ($product->quantity > 0)
+                                    Add to Cart
+                                @else
+                                    Out of Stock
+                                @endif
+                            </button>
+
                             @if ($product->quantity > 0)
-                                Add to Cart
-                            @else
-                                Out of Stock
+                                <button id="buy-now"
+                                    class="flex-1 bg-gray-900 text-white py-3 rounded-md hover:bg-gray-800 transition-colors duration-300"
+                                    data-product-id="{{ $product->id }}" data-product-name="{{ $product->name }}">
+                                    Buy Now
+                                </button>
                             @endif
-                        </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -172,12 +182,7 @@
                 }
             });
 
-            // Add to cart functionality
-            document.getElementById('add-to-cart').addEventListener('click', function() {
-                const productId = this.getAttribute('data-product-id');
-                const productName = this.getAttribute('data-product-name');
-                const quantity = parseInt(quantityInput.value);
-
+            function addToCart(productId, quantity, productName, isBuyNow = false) {
                 if (quantity > maxQty) {
                     alert(`Only ${maxQty} items available in stock.`);
                     quantityInput.value = maxQty;
@@ -200,11 +205,17 @@
                     .then(data => {
                         if (data.success) {
                             // Update cart count
-                            document.getElementById('cart-count').textContent = data.cart_count;
-                            // Show success message
-                            alert(
-                                `${quantity} ${productName} ${quantity > 1 ? 'items' : 'item'} added to cart successfully!`
-                                );
+                            const cartCountEl = document.getElementById('cart-count');
+                            if (cartCountEl) cartCountEl.textContent = data.cart_count;
+
+                            if (isBuyNow) {
+                                window.location.href = "{{ route('checkout') }}";
+                            } else {
+                                // Show success message
+                                alert(
+                                    `${quantity} ${productName} ${quantity > 1 ? 'items' : 'item'} added to cart successfully!`
+                                    );
+                            }
                         } else {
                             alert('Error: ' + data.message);
                         }
@@ -213,7 +224,29 @@
                         console.error('Error:', error);
                         alert('An error occurred while adding to cart');
                     });
-            });
+            }
+
+            // Add to cart functionality
+            const addToCartBtn = document.getElementById('add-to-cart');
+            if (addToCartBtn) {
+                addToCartBtn.addEventListener('click', function() {
+                    const productId = this.getAttribute('data-product-id');
+                    const productName = this.getAttribute('data-product-name');
+                    const quantity = parseInt(quantityInput.value);
+                    addToCart(productId, quantity, productName, false);
+                });
+            }
+
+            // Buy Now functionality
+            const buyNowBtn = document.getElementById('buy-now');
+            if (buyNowBtn) {
+                buyNowBtn.addEventListener('click', function() {
+                    const productId = this.getAttribute('data-product-id');
+                    const productName = this.getAttribute('data-product-name');
+                    const quantity = parseInt(quantityInput.value);
+                    addToCart(productId, quantity, productName, true);
+                });
+            }
         });
     </script>
 @endsection
