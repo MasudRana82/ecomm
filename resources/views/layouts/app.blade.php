@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'Vastraavillaa') }}</title>
 
     <!-- Scripts and Styles -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -41,7 +41,7 @@
             <!-- Top orange bar -->
             <div class="bg-custom-orange text-white">
                 <div class="container mx-auto px-4 py-1 text-center text-sm">
-                    Special offer: Free shipping on orders over $50!
+                    Special offer: Free shipping on orders over tk 2000!
                 </div>
             </div>
 
@@ -49,7 +49,7 @@
             <div class="container mx-auto px-4 py-4 flex justify-between items-center">
                 <!-- Logo -->
                 <div class="text-2xl font-bold custom-orange">
-                    <a href="{{ route('home') }}">GhorerBazar</a>
+                    <a href="{{ route('home') }}">Vastraavillaa</a>
                 </div>
 
                 <!-- Search Bar -->
