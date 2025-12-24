@@ -13,7 +13,7 @@
     <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">ALL PRODUCTS</h2>
     <div class="flex flex-col md:flex-row gap-8">
         <!-- Filters Sidebar -->
-        <aside class="w-full md:w-1/4 lg:w-1/5 bg-white p-6 rounded-lg shadow-sm h-fit">
+        <aside class="hidden md:block md:w-1/4 lg:w-1/5 bg-white p-6 rounded-lg shadow-sm h-fit">
             <div id="filter-accordion">
                 <!-- Category Filter -->
                 <div>
@@ -62,7 +62,7 @@
         <!-- Products Grid -->
         <div class="w-full md:w-3/4 lg:w-4/5">
             <!-- Sorting Dropdown -->
-            <div class="flex flex-col sm:flex-row justify-between items-center mb-6 bg-white p-4 rounded-lg shadow-sm">
+            <div class="hidden sm:flex flex-col sm:flex-row justify-between items-center mb-6 bg-white p-4 rounded-lg shadow-sm">
                 <p class="text-sm text-gray-600 mb-2 sm:mb-0">Showing <strong id="product-count" class="custom-orange">{{ $products->total() }}</strong> of {{ $products->total() }} products</p>
                 <div class="flex items-center gap-2">
                     <label for="sort-by" class="text-sm font-medium text-gray-700">Sort by:</label>
@@ -114,7 +114,14 @@
                                 data-product-name="{{ $product->name }}">
                             Add to Cart
                         </button>
+                        <button
+                            class="mt-2 w-full bg-gray-900 text-white py-2 rounded-md hover:bg-gray-800 transition-colors duration-300 buy-now-btn"
+                            data-product-id="{{ $product->id }}" data-product-name="{{ $product->name }}">
+                            Buy Now
+                        </button>
                     </div>
+
+
                 </div>
                 @empty
                 <div class="col-span-full text-center text-gray-500 py-10">
@@ -131,7 +138,63 @@
         </div>
     </div>
 </section>
+<script>
+        document.addEventListener('DOMContentLoaded', function() {
+            function addToCart(productId, productName, isBuyNow = false) {
+                fetch('{{ route('cart.add') }}', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
+                                'content')
+                        },
+                        body: JSON.stringify({
+                            product_id: productId,
+                            quantity: 1
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            // Update cart count
+                            const cartCountEl = document.getElementById('cart-count');
+                            if (cartCountEl) cartCountEl.textContent = data.cart_count;
 
+                            if (isBuyNow) {
+                                window.location.href = "{{ route('checkout') }}";
+                            } else {
+                                // Show success message
+                                alert(`${productName} added to cart successfully!`);
+                            }
+                        } else {
+                            alert('Error: ' + data.message);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('An error occurred while adding to cart');
+                    });
+            }
+
+            // Add to cart functionality
+            document.querySelectorAll('.add-to-cart').forEach(button => {
+                button.addEventListener('click', function() {
+                    const productId = this.getAttribute('data-product-id');
+                    const productName = this.getAttribute('data-product-name');
+                    addToCart(productId, productName, false);
+                });
+            });
+
+            // Buy Now functionality
+            document.querySelectorAll('.buy-now-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const productId = this.getAttribute('data-product-id');
+                    const productName = this.getAttribute('data-product-name');
+                    addToCart(productId, productName, true);
+                });
+            });
+        });
+    </script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     // Accordion for filters
