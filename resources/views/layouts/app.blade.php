@@ -49,7 +49,7 @@
             <div class="container mx-auto px-4 py-4 flex justify-between items-center">
                 <!-- Logo -->
                 <div class="text-2xl font-bold custom-orange">
-                    <a href="{{ route('home') }}">Vastraavillaa</a>
+                    <a href="{{ route('home') }}">বস্ত্র ভিলা</a>
                 </div>
 
                 <!-- Search Bar -->

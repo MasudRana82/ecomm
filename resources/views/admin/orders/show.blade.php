@@ -6,9 +6,15 @@
     <div class="bg-white shadow-md rounded-lg overflow-hidden">
         <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
             <h2 class="text-xl font-semibold text-gray-800">Order Details #{{ $order->order_number }}</h2>
-            <a href="{{ route('admin.orders.index') }}" class="text-custom-orange hover:text-orange-700">
-                <i class="fas fa-arrow-left mr-2"></i>Back to Orders
-            </a>
+            <div class="flex gap-3">
+                <a href="{{ route('admin.orders.invoice', $order->id) }}" target="_blank"
+                    class="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-orange-600 transition-colors">
+                    <i class="fas fa-print mr-2"></i>Print Invoice
+                </a>
+                <a href="{{ route('admin.orders.index') }}" class="text-custom-orange hover:text-orange-700">
+                    <i class="fas fa-arrow-left mr-2"></i>Back to Orders
+                </a>
+            </div>
         </div>
 
         <div class="p-6">

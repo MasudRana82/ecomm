@@ -39,12 +39,18 @@ class OrderAdminController extends Controller
     public function destroy($id)
     {
         $order = Order::findOrFail($id);
-        
+
         // You might want to add additional validation here to ensure 
         // the order can be safely deleted in your business context
-        
+
         $order->delete();
 
         return redirect()->route('admin.orders.index')->with('success', 'Order deleted successfully.');
+    }
+
+    public function invoice($id)
+    {
+        $order = Order::with(['user', 'orderItems.product'])->findOrFail($id);
+        return view('admin.orders.invoice', compact('order'));
     }
 }

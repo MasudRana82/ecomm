@@ -98,6 +98,9 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
         'update' => 'admin.orders.update',
         'destroy' => 'admin.orders.destroy',
     ]);
+
+    // Invoice route
+    Route::get('orders/{id}/invoice', [OrderAdminController::class, 'invoice'])->name('admin.orders.invoice');
 });
 
 // Payment routes
