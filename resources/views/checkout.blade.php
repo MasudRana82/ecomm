@@ -27,19 +27,27 @@
                                         </div>
 
                                         <!-- Product Info -->
-                                        <div class="ml-4 flex-1 flex flex-col">
-                                            <div>
-                                                <div class="flex justify-between text-base font-medium text-gray-900">
-                                                    <h3>{{ $item->product->name }}</h3>
-                                                    <p class="ml-4">৳{{ number_format($item->price, 2) }}</p>
+                                        <div class="ml-4 flex-1">
+                                            <div class="flex justify-between">
+                                                <div>
+                                                    <h3 class="text-base font-medium text-gray-900">
+                                                        {{ $item->product->name }}</h3>
+                                                    <p class="mt-1 text-sm text-gray-500">Qty: {{ $item->quantity }}</p>
+                                                    @if ($item->color)
+                                                        <p class="text-sm text-gray-500">Color: {{ $item->color }}</p>
+                                                    @endif
+                                                    @if ($item->size)
+                                                        <p class="text-sm text-gray-500">Size: {{ $item->size }}</p>
+                                                    @endif
                                                 </div>
-                                                <p class="mt-1 text-sm text-gray-500">Qty: {{ $item->quantity }}</p>
-                                                @if ($item->color)
-                                                    <p class="text-sm text-gray-500">Color: {{ $item->color }}</p>
-                                                @endif
-                                                @if ($item->size)
-                                                    <p class="text-sm text-gray-500">Size: {{ $item->size }}</p>
-                                                @endif
+                                                <div class="flex flex-col items-end">
+                                                    <p class="text-base font-medium text-gray-900">
+                                                        ৳{{ number_format($item->price * $item->quantity, 2) }}</p>
+                                                    <button type="button" data-item-id="{{ $item->id }}"
+                                                        class="remove-item mt-2 text-red-600 hover:text-red-800 text-sm">
+                                                        <i class="fas fa-trash mr-1"></i>Remove
+                                                    </button>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -159,26 +167,10 @@
                                 <div class="space-y-4">
                                     <div class="flex items-center">
                                         <input id="payment_method_cash" name="payment_method" type="radio"
-                                            value="cash_on_delivery" required
+                                            value="cash_on_delivery" required checked
                                             class="h-4 w-4 text-custom-orange focus:ring-custom-orange border-gray-300">
                                         <label for="payment_method_cash"
                                             class="ml-3 block text-sm font-medium text-gray-700">Cash on Delivery</label>
-                                    </div>
-
-                                    <div class="flex items-center">
-                                        <input id="payment_method_card" name="payment_method" type="radio"
-                                            value="credit_card"
-                                            class="h-4 w-4 text-custom-orange focus:ring-custom-orange border-gray-300">
-                                        <label for="payment_method_card"
-                                            class="ml-3 block text-sm font-medium text-gray-700">Credit/Debit Card</label>
-                                    </div>
-
-                                    <div class="flex items-center">
-                                        <input id="payment_method_bkash" name="payment_method" type="radio"
-                                            value="bkash"
-                                            class="h-4 w-4 text-custom-orange focus:ring-custom-orange border-gray-300">
-                                        <label for="payment_method_bkash"
-                                            class="ml-3 block text-sm font-medium text-gray-700">bKash</label>
                                     </div>
                                 </div>
                             </div>
@@ -228,6 +220,45 @@
             document.getElementById('shipping_address').addEventListener('input', copyShippingToBilling);
             document.getElementById('shipping_city').addEventListener('input', copyShippingToBilling);
             document.getElementById('shipping_phone').addEventListener('input', copyShippingToBilling);
+
+            // Remove item from cart
+            document.querySelectorAll('.remove-item').forEach(button => {
+                button.addEventListener('click', function() {
+                    const itemId = this.getAttribute('data-item-id');
+
+                    if (confirm('Are you sure you want to remove this item from your cart?')) {
+                        removeFromCart(itemId);
+                    }
+                });
+            });
+
+            function removeFromCart(itemId) {
+                fetch(`{{ route('cart.remove', '') }}/${itemId}`, {
+                        method: 'DELETE',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
+                                'content')
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            // Update cart count
+                            const cartCountEl = document.getElementById('cart-count');
+                            if (cartCountEl) cartCountEl.textContent = data.cart_count;
+
+                            // Reload page to update cart items
+                            location.reload();
+                        } else {
+                            alert('Error: ' + data.message);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('An error occurred while removing item from cart');
+                    });
+            }
 
             // Form submission
             document.getElementById('checkout-form').addEventListener('submit', function(e) {
