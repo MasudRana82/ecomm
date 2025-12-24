@@ -24,6 +24,7 @@ class Product extends Model
         'is_featured',
         'image',
         'images',
+        'color_images',
         'colors',
         'sizes',
         'category_id',
@@ -31,6 +32,7 @@ class Product extends Model
 
     protected $casts = [
         'images' => 'array',
+        'color_images' => 'array',
         'colors' => 'array',
         'sizes' => 'array',
         'price' => 'decimal:2',
@@ -59,7 +61,7 @@ class Product extends Model
         }
         return 0;
     }
-    
+
     /**
      * Handle image upload for product
      */
@@ -70,7 +72,7 @@ class Product extends Model
         }
         return null;
     }
-    
+
     /**
      * Handle multiple image uploads for product
      */
@@ -81,7 +83,7 @@ class Product extends Model
         }
         return null;
     }
-    
+
     /**
      * Delete product image
      */

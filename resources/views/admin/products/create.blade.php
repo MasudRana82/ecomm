@@ -143,6 +143,15 @@
                     @enderror
                 </div>
 
+                <div id="color-images-section" class="hidden">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Color-Specific Images</label>
+                    <p class="text-xs text-gray-500 mb-3">Upload images for each color variant. These images will be
+                        displayed when users select a color.</p>
+                    <div id="color-images-container" class="space-y-3">
+                        <!-- Color image inputs will be dynamically added here -->
+                    </div>
+                </div>
+
                 <div class="flex items-center">
                     <input type="checkbox" name="is_active" id="is_active" value="1"
                         {{ old('is_active') ? 'checked' : '' }}
@@ -170,4 +179,40 @@
     </div>
     </form>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const colorsInput = document.getElementById('colors');
+            const colorImagesSection = document.getElementById('color-images-section');
+            const colorImagesContainer = document.getElementById('color-images-container');
+
+            colorsInput.addEventListener('input', function() {
+                const colorsValue = this.value.trim();
+
+                if (colorsValue) {
+                    const colors = colorsValue.split(',').map(c => c.trim()).filter(c => c);
+
+                    if (colors.length > 0) {
+                        colorImagesSection.classList.remove('hidden');
+                        colorImagesContainer.innerHTML = '';
+
+                        colors.forEach(color => {
+                            const colorDiv = document.createElement('div');
+                            colorDiv.className = 'border border-gray-200 rounded-md p-3 bg-gray-50';
+                            colorDiv.innerHTML = `
+                                <label class="block text-sm font-medium text-gray-700 mb-1">${color}</label>
+                                <input type="file" name="color_images[${color}]" accept="image/*"
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-sm">
+                            `;
+                            colorImagesContainer.appendChild(colorDiv);
+                        });
+                    } else {
+                        colorImagesSection.classList.add('hidden');
+                    }
+                } else {
+                    colorImagesSection.classList.add('hidden');
+                }
+            });
+        });
+    </script>
 @endsection

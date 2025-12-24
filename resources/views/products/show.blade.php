@@ -103,36 +103,42 @@
                     </div>
 
                     <!-- Options (Color & Size) -->
-                    @if($product->colors && count($product->colors) > 0)
-                    <div class="mb-4">
-                        <h3 class="text-sm font-medium text-gray-900 mb-2">Select Color</h3>
-                        <div class="flex flex-wrap gap-2">
-                            @foreach($product->colors as $color)
-                            <label class="cursor-pointer">
-                                <input type="radio" name="color" value="{{ $color }}" class="peer sr-only">
-                                <div class="px-3 py-1 border border-gray-300 rounded-md peer-checked:border-custom-orange peer-checked:bg-orange-50 peer-checked:text-custom-orange hover:border-gray-400 transition-colors">
-                                    {{ $color }}
-                                </div>
-                            </label>
-                            @endforeach
+                    @if ($product->colors && count($product->colors) > 0)
+                        <div class="mb-4">
+                            <h3 class="text-sm font-medium text-gray-900 mb-2">Select Color</h3>
+                            <div class="flex flex-wrap gap-2">
+                                @foreach ($product->colors as $index => $color)
+                                    <label class="cursor-pointer">
+                                        <input type="radio" name="color" value="{{ $color }}"
+                                            class="peer sr-only color-selector" data-color="{{ $color }}"
+                                            data-image="{{ isset($product->color_images[$color]) ? asset('storage/' . $product->color_images[$color]) : '' }}"
+                                            {{ $index === 0 ? 'checked' : '' }}>
+                                        <div
+                                            class="px-3 py-1 border border-gray-300 rounded-md peer-checked:border-custom-orange peer-checked:bg-orange-50 peer-checked:text-custom-orange hover:border-gray-400 transition-colors">
+                                            {{ $color }}
+                                        </div>
+                                    </label>
+                                @endforeach
+                            </div>
                         </div>
-                    </div>
                     @endif
 
-                    @if($product->sizes && count($product->sizes) > 0)
-                    <div class="mb-6">
-                        <h3 class="text-sm font-medium text-gray-900 mb-2">Select Size</h3>
-                        <div class="flex flex-wrap gap-2">
-                            @foreach($product->sizes as $size)
-                            <label class="cursor-pointer">
-                                <input type="radio" name="size" value="{{ $size }}" class="peer sr-only">
-                                <div class="px-3 py-1 border border-gray-300 rounded-md peer-checked:border-custom-orange peer-checked:bg-orange-50 peer-checked:text-custom-orange hover:border-gray-400 transition-colors">
-                                    {{ $size }}
-                                </div>
-                            </label>
-                            @endforeach
+                    @if ($product->sizes && count($product->sizes) > 0)
+                        <div class="mb-6">
+                            <h3 class="text-sm font-medium text-gray-900 mb-2">Select Size</h3>
+                            <div class="flex flex-wrap gap-2">
+                                @foreach ($product->sizes as $size)
+                                    <label class="cursor-pointer">
+                                        <input type="radio" name="size" value="{{ $size }}"
+                                            class="peer sr-only">
+                                        <div
+                                            class="px-3 py-1 border border-gray-300 rounded-md peer-checked:border-custom-orange peer-checked:bg-orange-50 peer-checked:text-custom-orange hover:border-gray-400 transition-colors">
+                                            {{ $size }}
+                                        </div>
+                                    </label>
+                                @endforeach
+                            </div>
                         </div>
-                    </div>
                     @endif
 
                     <!-- Quantity and Add to Cart -->
@@ -190,6 +196,34 @@
             const decreaseBtn = document.getElementById('decrease-qty');
             const increaseBtn = document.getElementById('increase-qty');
             const maxQty = parseInt(quantityInput.max);
+            const mainImage = document.getElementById('main-image');
+            const colorSelectors = document.querySelectorAll('.color-selector');
+
+            // Store the default image
+            const defaultImage = mainImage.src;
+
+            // Handle color selection and image switching
+            colorSelectors.forEach(selector => {
+                selector.addEventListener('change', function() {
+                    const colorImage = this.getAttribute('data-image');
+
+                    if (colorImage && colorImage !== '') {
+                        changeImage(colorImage);
+                    } else {
+                        // If no color-specific image, use default product image
+                        changeImage(defaultImage);
+                    }
+                });
+            });
+
+            // Trigger change event on the initially checked color (if any)
+            const initiallyChecked = document.querySelector('.color-selector:checked');
+            if (initiallyChecked) {
+                const colorImage = initiallyChecked.getAttribute('data-image');
+                if (colorImage && colorImage !== '') {
+                    mainImage.src = colorImage;
+                }
+            }
 
             // Quantity handling
             decreaseBtn.addEventListener('click', function() {
@@ -221,7 +255,7 @@
                     quantityInput.value = maxQty;
                     return;
                 }
-                
+
                 // Get selected color and size
                 let color = null;
                 const colorInput = document.querySelector('input[name="color"]:checked');
@@ -266,7 +300,7 @@
                                 // Show success message
                                 alert(
                                     `${quantity} ${productName} ${quantity > 1 ? 'items' : 'item'} added to cart successfully!`
-                                    );
+                                );
                             }
                         } else {
                             alert('Error: ' + data.message);

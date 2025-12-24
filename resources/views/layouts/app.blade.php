@@ -125,7 +125,7 @@
             <div class="container mx-auto px-4 py-10">
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
                     <div>
-                        <h3 class="text-lg font-bold custom-orange mb-4">GhorerBazar</h3>
+                        <h3 class="text-lg font-bold custom-orange mb-4">Vastraavillaa</h3>
                         <p class="text-gray-400">Authentic and fresh products delivered to your doorstep.</p>
                         <div class="flex space-x-4 mt-4">
                             <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-facebook-f"></i></a>
@@ -154,14 +154,14 @@
                     <div>
                         <h3 class="font-semibold text-lg mb-4">Contact Info</h3>
                         <ul class="space-y-2 text-gray-400">
-                            <li class="flex items-start"><i class="fas fa-map-marker-alt mt-1 mr-2 custom-orange"></i> 123 Main Street, Dhaka, Bangladesh</li>
-                            <li class="flex items-center"><i class="fas fa-phone-alt mr-2 custom-orange"></i> +880 123 456 7890</li>
-                            <li class="flex items-center"><i class="fas fa-envelope mr-2 custom-orange"></i> support@ghorerbazar.com</li>
+                            <li class="flex items-start"><i class="fas fa-map-marker-alt mt-1 mr-2 custom-orange"></i> বস্ত্র ভিলা - Vastra Villa, Rangamati, Bangladesh</li>
+                            <li class="flex items-center"><i class="fas fa-phone-alt mr-2 custom-orange"></i> +8801617-512307</li>
+                            <li class="flex items-center"><i class="fas fa-envelope mr-2 custom-orange"></i> shop@vastraavillaa.com</li>
                         </ul>
                     </div>
                 </div>
                 <div class="border-t border-gray-700 mt-8 pt-6 text-center text-gray-500">
-                    &copy; {{ date('Y') }} GhorerBazar. All Rights Reserved. Developed by Bitesoftsolution.
+                    &copy; {{ date('Y') }} Vastraavillaa. All Rights Reserved. Developed by Bitesoftsolution.
                 </div>
             </div>
         </footer>

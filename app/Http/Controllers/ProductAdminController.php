@@ -35,17 +35,19 @@ class ProductAdminController extends Controller
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'images' => 'nullable|array',
             'images.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'color_images' => 'nullable|array',
+            'color_images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'colors' => 'nullable|string', // Comma separated string
             'sizes' => 'nullable|string', // Comma separated string
             'is_active' => 'boolean',
             'is_featured' => 'boolean',
         ]);
 
-        $productData = $request->except(['image', 'images']);
+        $productData = $request->except(['image', 'images', 'color_images']);
         $productData['slug'] = Str::slug($request->name);
         $productData['is_active'] = $request->has('is_active');
         $productData['is_featured'] = $request->has('is_featured');
-        
+
         // Process colors and sizes from comma-separated string to array
         if ($request->has('colors') && $request->colors) {
             $productData['colors'] = array_map('trim', explode(',', $request->colors));
@@ -75,6 +77,20 @@ class ProductAdminController extends Controller
             }
         }
 
+        // Handle color-specific images upload
+        if ($request->hasFile('color_images')) {
+            $colorImages = [];
+            foreach ($request->file('color_images') as $color => $image) {
+                if ($image) {
+                    $imagePath = $product->uploadImage($image);
+                    $colorImages[$color] = $imagePath;
+                }
+            }
+            if (!empty($colorImages)) {
+                $product->update(['color_images' => $colorImages]);
+            }
+        }
+
         return redirect()->route('admin.products.index')->with('success', 'Product created successfully.');
     }
 
@@ -101,13 +117,15 @@ class ProductAdminController extends Controller
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'images' => 'nullable|array',
             'images.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'color_images' => 'nullable|array',
+            'color_images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'colors' => 'nullable|string', // Comma separated string
             'sizes' => 'nullable|string', // Comma separated string
             'is_active' => 'boolean',
             'is_featured' => 'boolean',
         ]);
 
-        $productData = $request->except(['image', 'images']);
+        $productData = $request->except(['image', 'images', 'color_images']);
         $productData['slug'] = Str::slug($request->name);
         $productData['is_active'] = $request->has('is_active');
         $productData['is_featured'] = $request->has('is_featured');
@@ -133,7 +151,7 @@ class ProductAdminController extends Controller
             if ($product->image) {
                 $product->deleteProductImage($product->image);
             }
-            
+
             $imagePath = $product->uploadImage($request->file('image'));
             $product->update(['image' => $imagePath]);
         }
@@ -146,9 +164,28 @@ class ProductAdminController extends Controller
                 if ($product->images) {
                     $product->deleteMultipleFiles($product->images);
                 }
-                
+
                 $product->update(['images' => $imagePaths]);
             }
+        }
+
+        // Handle color-specific images upload
+        if ($request->hasFile('color_images')) {
+            $existingColorImages = $product->color_images ?? [];
+
+            foreach ($request->file('color_images') as $color => $image) {
+                if ($image) {
+                    // Delete old color image if exists
+                    if (isset($existingColorImages[$color])) {
+                        $product->deleteProductImage($existingColorImages[$color]);
+                    }
+
+                    $imagePath = $product->uploadImage($image);
+                    $existingColorImages[$color] = $imagePath;
+                }
+            }
+
+            $product->update(['color_images' => $existingColorImages]);
         }
 
         return redirect()->route('admin.products.index')->with('success', 'Product updated successfully.');
@@ -162,7 +199,7 @@ class ProductAdminController extends Controller
         if ($product->image) {
             $product->deleteProductImage($product->image);
         }
-        
+
         if ($product->images) {
             $product->deleteMultipleFiles($product->images);
         }
