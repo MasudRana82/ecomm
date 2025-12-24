@@ -54,11 +54,7 @@
                             <p>৳{{ number_format($subtotal, 2) }}</p>
                         </div>
                         <div class="flex justify-between text-base font-medium text-gray-900 mb-2">
-                            <p>Tax</p>
-                            <p>৳{{ number_format($tax, 2) }}</p>
-                        </div>
-                        <div class="flex justify-between text-base font-medium text-gray-900 mb-2">
-                            <p>Shipping</p>
+                            <p>Delivery Charge</p>
                             <p>৳{{ number_format($shipping, 2) }}</p>
                         </div>
                         <div
@@ -223,7 +219,7 @@
                         .value;
                     document.getElementById('billing_city').value = document.getElementById('shipping_city').value;
                     document.getElementById('billing_phone').value = document.getElementById('shipping_phone')
-                    .value;
+                        .value;
                 }
             }
 

@@ -72,12 +72,7 @@
                             </div>
 
                             <div class="flex justify-between">
-                                <p class="text-sm text-gray-600">Tax</p>
-                                <p class="text-sm font-medium text-gray-900">৳{{ number_format($order->tax, 2) }}</p>
-                            </div>
-
-                            <div class="flex justify-between">
-                                <p class="text-sm text-gray-600">Shipping</p>
+                                <p class="text-sm text-gray-600">Delivery Charge</p>
                                 <p class="text-sm font-medium text-gray-900">৳{{ number_format($order->shipping, 2) }}</p>
                             </div>
 

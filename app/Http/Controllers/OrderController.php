@@ -15,7 +15,7 @@ class OrderController extends Controller
     public function index()
     {
         $orders = Order::where('user_id', Auth::id())->orderBy('created_at', 'desc')->paginate(10);
-        
+
         return view('orders.index', compact('orders'));
     }
 
@@ -26,7 +26,7 @@ class OrderController extends Controller
         } else {
             $order = Order::where('order_number', $orderNumber)->whereNull('user_id')->firstOrFail();
         }
-        
+
         return view('orders.show', compact('order'));
     }
 
@@ -38,7 +38,7 @@ class OrderController extends Controller
         } else {
             $cartItems = Cart::with('product')->where('session_id', session()->getId())->get();
         }
-        
+
         if ($cartItems->isEmpty()) {
             return redirect()->route('cart.index')->with('error', 'Your cart is empty');
         }
@@ -46,9 +46,9 @@ class OrderController extends Controller
         $subtotal = $cartItems->sum(function ($item) {
             return $item->quantity * $item->price;
         });
-        
-        $tax = $subtotal * 0.05; // 5% tax
-        $shipping = 50; // Fixed shipping cost
+
+        $tax = 0; // No tax
+        $shipping = 100; // Fixed shipping cost
         $total = $subtotal + $tax + $shipping;
 
         return view('checkout', compact('cartItems', 'subtotal', 'tax', 'shipping', 'total'));
@@ -68,7 +68,7 @@ class OrderController extends Controller
         } else {
             $cartItems = Cart::with('product')->where('session_id', session()->getId())->get();
         }
-        
+
         if ($cartItems->isEmpty()) {
             return response()->json(['success' => false, 'message' => 'Cart is empty']);
         }
@@ -76,9 +76,9 @@ class OrderController extends Controller
         $subtotal = $cartItems->sum(function ($item) {
             return $item->quantity * $item->price;
         });
-        
-        $tax = $subtotal * 0.05; // 5% tax
-        $shipping = 50; // Fixed shipping cost
+
+        $tax = 0; // No tax
+        $shipping = 100; // Fixed shipping cost
         $total = $subtotal + $tax + $shipping;
 
         // Create order
@@ -106,7 +106,7 @@ class OrderController extends Controller
                 'color' => $item->color,
                 'size' => $item->size,
             ]);
-            
+
             // Reduce product stock
             $product = $item->product;
             $product->decrement('quantity', $item->quantity);

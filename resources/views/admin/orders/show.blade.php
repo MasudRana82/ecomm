@@ -159,12 +159,8 @@
                                     ৳{{ number_format($order->subtotal, 2) }}</td>
                             </tr>
                             <tr class="bg-gray-50 font-semibold">
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900" colspan="3">Tax</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                    ৳{{ number_format($order->tax, 2) }}</td>
-                            </tr>
-                            <tr class="bg-gray-50 font-semibold">
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900" colspan="3">Shipping</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900" colspan="3">Delivery Charge
+                                </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                     ৳{{ number_format($order->shipping, 2) }}</td>
                             </tr>
