@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Invoice - {{ $order->order_number }}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -13,7 +15,7 @@
         }
 
         body {
-            font-family: 'Arial', sans-serif;
+            font-family: 'Hind Siliguri', sans-serif;
             line-height: 1.6;
             color: #333;
             padding: 20px;
