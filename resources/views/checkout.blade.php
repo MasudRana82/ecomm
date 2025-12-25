@@ -308,4 +308,23 @@
             });
         });
     </script>
+
+    <!-- Meta Pixel InitiateCheckout Event -->
+    <script>
+        // Track checkout initiation
+        if (typeof fbq !== 'undefined') {
+            fbq('track', 'InitiateCheckout', {
+                content_ids: [
+                    @foreach ($cartItems as $item)
+                        '{{ $item->product_id }}'
+                        {{ !$loop->last ? ',' : '' }}
+                    @endforeach
+                ],
+                content_type: 'product',
+                value: {{ $total }},
+                currency: 'BDT',
+                num_items: {{ $cartItems->sum('quantity') }}
+            });
+        }
+    </script>
 @endsection

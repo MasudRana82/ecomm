@@ -62,7 +62,13 @@ class CartController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Product added to cart successfully',
-            'cart_count' => $this->getCartCount()
+            'cart_count' => $this->getCartCount(),
+            'product' => [
+                'id' => $product->id,
+                'name' => $product->name,
+                'price' => $product->price,
+                'quantity' => $request->quantity
+            ]
         ]);
     }
 
@@ -74,7 +80,7 @@ class CartController extends Controller
         ]);
 
         $cartItem = Cart::findOrFail($request->cart_id);
-        
+
         if (Auth::check()) {
             if ($cartItem->user_id !== Auth::id()) {
                 return response()->json(['success' => false, 'message' => 'Unauthorized'], 403);
@@ -97,7 +103,7 @@ class CartController extends Controller
     public function remove($id)
     {
         $cartItem = Cart::findOrFail($id);
-        
+
         if (Auth::check()) {
             if ($cartItem->user_id !== Auth::id()) {
                 return response()->json(['success' => false, 'message' => 'Unauthorized'], 403);

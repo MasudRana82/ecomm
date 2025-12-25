@@ -149,4 +149,23 @@
             </div>
         </div>
     </div>
+
+    <!-- Meta Pixel Purchase Event -->
+    <script>
+        // Track successful purchase
+        if (typeof fbq !== 'undefined') {
+            fbq('track', 'Purchase', {
+                content_ids: [
+                    @foreach ($order->orderItems as $item)
+                        '{{ $item->product_id }}'
+                        {{ !$loop->last ? ',' : '' }}
+                    @endforeach
+                ],
+                content_type: 'product',
+                value: {{ $order->total }},
+                currency: 'BDT',
+                num_items: {{ $order->orderItems->sum('quantity') }}
+            });
+        }
+    </script>
 @endsection

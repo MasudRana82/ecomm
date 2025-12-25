@@ -294,6 +294,17 @@
                             const cartCountEl = document.getElementById('cart-count');
                             if (cartCountEl) cartCountEl.textContent = data.cart_count;
 
+                            // Track AddToCart event with Meta Pixel
+                            if (typeof fbq !== 'undefined' && data.product) {
+                                fbq('track', 'AddToCart', {
+                                    content_name: data.product.name,
+                                    content_ids: [data.product.id],
+                                    content_type: 'product',
+                                    value: data.product.price * data.product.quantity,
+                                    currency: 'BDT'
+                                });
+                            }
+
                             if (isBuyNow) {
                                 window.location.href = "{{ route('checkout') }}";
                             } else {
@@ -334,5 +345,19 @@
                 });
             }
         });
+    </script>
+
+    <!-- Meta Pixel ViewContent Event -->
+    <script>
+        // Track product view
+        if (typeof fbq !== 'undefined') {
+            fbq('track', 'ViewContent', {
+                content_name: '{{ $product->name }}',
+                content_ids: ['{{ $product->id }}'],
+                content_type: 'product',
+                value: {{ $product->price }},
+                currency: 'BDT'
+            });
+        }
     </script>
 @endsection
