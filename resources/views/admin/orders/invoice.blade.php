@@ -266,7 +266,7 @@
                 <h1>বস্ত্র ভিলা</h1>
                 <p>E-commerce Store</p>
                 <p>Email: info@vastraavillaa.com</p>
-                <p>Phone: +880 1234-567890</p>
+                <p>Phone: +8801617-512307</p>
             </div>
             <div class="invoice-meta">
                 <h2>INVOICE</h2>
@@ -327,7 +327,7 @@
                         <td>
                             <div class="product-info">
                                 @if ($item->product && $item->product->image)
-                                    <img src="{{ public_path('storage/' . $item->product->image) }}"
+                                    <img src="{{ asset('storage/' . $item->product->image) }}"
                                         alt="{{ $item->product->name }}" class="product-image"
                                         onerror="this.style.display='none'">
                                 @else
@@ -336,6 +336,11 @@
                                         No Image
                                     </div>
                                 @endif
+
+
+                               
+
+
                                 <div class="product-details">
                                     <div class="product-name">{{ $item->product->name ?? 'N/A' }}</div>
                                     <div class="product-meta">
