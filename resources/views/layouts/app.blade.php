@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Vastraavillaa') }}</title>
+    <title>{{ config('app.name', 'বস্ত্র ভিলা') }}</title>
 
     <!-- Scripts and Styles -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -187,14 +187,14 @@
             <div class="container mx-auto px-4 py-10">
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
                     <div>
-                        <h3 class="text-lg font-bold custom-orange mb-4">Vastraavillaa</h3>
-                        <p class="text-gray-400">Authentic and fresh products delivered to your doorstep.</p>
+                        <h3 class="text-lg font-bold custom-orange mb-4">বস্ত্র ভিলা</h3>
+                        <p class="text-gray-400">রাংগামাটির তৈরি পিনন,থামি,গুজরাটি ব্যাগ এবং তাতের থ্রিপিস ও অলংকার পুর্ন কাপড়ের বিশ্বস্থ প্রতিষ্ঠান।</p>
                         <div class="flex space-x-4 mt-4">
-                            <a href="#" class="text-gray-400 hover:text-white"><i
+                            <a href="https://www.facebook.com/vastraavillaaa" class="text-gray-400 hover:text-white"><i
                                     class="fab fa-facebook-f"></i></a>
-                            <a href="#" class="text-gray-400 hover:text-white"><i
+                            <a href="https://www.instagram.com/vastraavillaaa" class="text-gray-400 hover:text-white"><i
                                     class="fab fa-instagram"></i></a>
-                            <a href="#" class="text-gray-400 hover:text-white"><i
+                            <a href="https://www.youtube.com/@Vastraavilla" class="text-gray-400 hover:text-white"><i
                                     class="fab fa-youtube"></i></a>
                         </div>
                     </div>
