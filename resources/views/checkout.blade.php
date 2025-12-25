@@ -175,6 +175,21 @@
                                 </div>
                             </div>
 
+                            <!-- Order Notes (Optional) -->
+                            <div class="pb-6">
+                                <h3 class="text-md font-medium text-gray-900 mb-4">Order Notes <span
+                                        class="text-sm text-gray-500 font-normal">(Optional)</span></h3>
+                                <div>
+                                    <label for="order_notes" class="block text-sm font-medium text-gray-700 mb-2">
+                                        Add any special instructions or comments about your order
+                                    </label>
+                                    <textarea name="order_notes" id="order_notes" rows="4"
+                                        placeholder="e.g., Please call before delivery, Gift wrapping needed, etc."
+                                        class="w-full border border-gray-300 rounded-md shadow-sm p-3 focus:outline-none focus:ring-2 focus:ring-custom-orange focus:border-custom-orange resize-none"></textarea>
+                                    <p class="mt-1 text-xs text-gray-500">Maximum 500 characters</p>
+                                </div>
+                            </div>
+
                             <!-- Place Order Button -->
                             <div>
                                 <button type="submit" id="place-order-btn"

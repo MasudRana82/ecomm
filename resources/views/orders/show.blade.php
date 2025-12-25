@@ -145,6 +145,16 @@
                             <p>{{ $order->shipping_address['phone'] }}</p>
                         </div>
                     </div>
+
+                    <!-- Order Notes -->
+                    @if ($order->notes)
+                        <div class="mt-6 bg-gray-50 p-6 rounded-md">
+                            <h2 class="text-lg font-medium text-gray-900 mb-4">Order Notes</h2>
+                            <div class="text-sm text-gray-700">
+                                <p class="whitespace-pre-wrap">{{ $order->notes }}</p>
+                            </div>
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>

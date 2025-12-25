@@ -112,6 +112,23 @@
                 </div>
             </div>
 
+            <!-- Order Notes -->
+            @if ($order->notes)
+                <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-8 rounded-r-lg">
+                    <div class="flex">
+                        <div class="flex-shrink-0">
+                            <i class="fas fa-sticky-note text-yellow-400"></i>
+                        </div>
+                        <div class="ml-3">
+                            <h3 class="text-sm font-medium text-yellow-800">Order Notes</h3>
+                            <div class="mt-2 text-sm text-yellow-700">
+                                <p class="whitespace-pre-wrap">{{ $order->notes }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endif
+
             <!-- Order Items -->
             <div class="mb-8">
                 <h3 class="text-lg font-medium text-gray-900 mb-3">Order Items</h3>

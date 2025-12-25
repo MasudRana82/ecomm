@@ -60,6 +60,7 @@ class OrderController extends Controller
             'shipping_address' => 'required|array',
             'billing_address' => 'required|array',
             'payment_method' => 'required|string',
+            'order_notes' => 'nullable|string|max:500',
         ]);
 
         // Get cart items based on authentication status
@@ -93,6 +94,7 @@ class OrderController extends Controller
             'billing_address' => $request->billing_address,
             'payment_method' => $request->payment_method,
             'payment_status' => 'pending', // Will be updated after payment
+            'notes' => $request->order_notes,
         ]);
 
         // Create order items
