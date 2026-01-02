@@ -10,7 +10,7 @@
     </section> --}}
 
     <!-- Collection Section -->
-    <section class="mb-12">
+    <!-- <section class="mb-12">
         <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">COLLECTION</h2>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
             @forelse($categories as $category)
@@ -32,7 +32,7 @@
                 </div>
             @endforelse
         </div>
-    </section>
+    </section> -->
 
     <!-- All Products Section -->
     <section>
