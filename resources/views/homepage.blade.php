@@ -11,39 +11,37 @@
 
     <!-- Collection Section -->
     <!-- <section class="mb-12">
-        <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">COLLECTION</h2>
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-            @forelse($categories as $category)
-                <div class="bg-white p-4 rounded-lg shadow-sm text-center">
-                    <a href="{{ route('category.show', $category->slug) }}">
-                        @if ($category->image)
-                            <img src="{{ asset('storage/' . $category->image) }}" alt="{{ $category->name }}"
-                                class="mx-auto h-24 mb-2 object-cover">
-                        @else
-                            <img src="https://placehold.co/200x150/FEF3C7/8B5CF6?text={{ urlencode($category->name) }}"
-                                class="mx-auto h-24 mb-2">
-                        @endif
-                        <h3 class="font-semibold">{{ $category->name }}</h3>
-                    </a>
-                </div>
-            @empty
-                <div class="col-span-4 text-center text-gray-500">
-                    <p>No categories available at the moment.</p>
-                </div>
-            @endforelse
-        </div>
-    </section> -->
+            <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">COLLECTION</h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                @forelse($categories as $category)
+                    <div class="bg-white p-4 rounded-lg shadow-sm text-center">
+                        <a href="{{ route('category.show', $category->slug) }}">
+                            @if ($category->image)
+                                <img src="{{ asset('storage/' . $category->image) }}" alt="{{ $category->name }}"
+                                    class="mx-auto h-24 mb-2 object-cover">
+                            @else
+                                <img src="https://placehold.co/200x150/FEF3C7/8B5CF6?text={{ urlencode($category->name) }}"
+                                    class="mx-auto h-24 mb-2">
+                            @endif
+                            <h3 class="font-semibold">{{ $category->name }}</h3>
+                        </a>
+                    </div>
+                @empty
+                    <div class="col-span-4 text-center text-gray-500">
+                        <p>No categories available at the moment.</p>
+                    </div>
+                @endforelse
+            </div>
+        </section> -->
 
     <!-- All Products Section -->
     <section>
         <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">ALL PRODUCTS</h2>
         <div id="product-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-6">
             @forelse($products as $product)
-                <div
-                    class="bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden group text-center relative">
+                <div class="bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden group text-center relative">
                     @if ($product->discount_percentage > 0)
-                        <span
-                            class="absolute top-2 left-2 bg-red-500 text-white text-xs font-semibold px-2 py-1 rounded-full">
+                        <span class="absolute top-2 left-2 bg-red-500 text-white text-xs font-semibold px-2 py-1 rounded-full">
                             -{{ $product->discount_percentage }}%
                         </span>
                     @endif
@@ -94,59 +92,26 @@
         <!-- Pagination is not shown on homepage as we're displaying limited featured products -->
     </section>
 
+    <!-- Include the Product Options Modal -->
+    @include('components.product-options-modal')
+
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            function addToCart(productId, productName, isBuyNow = false) {
-                fetch('{{ route('cart.add') }}', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
-                                'content')
-                        },
-                        body: JSON.stringify({
-                            product_id: productId,
-                            quantity: 1
-                        })
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            // Update cart count
-                            const cartCountEl = document.getElementById('cart-count');
-                            if (cartCountEl) cartCountEl.textContent = data.cart_count;
-
-                            if (isBuyNow) {
-                                window.location.href = "{{ route('checkout') }}";
-                            } else {
-                                // Show success message
-                                alert(`${productName} added to cart successfully!`);
-                            }
-                        } else {
-                            alert('Error: ' + data.message);
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        alert('An error occurred while adding to cart');
-                    });
-            }
-
-            // Add to cart functionality
+        document.addEventListener('DOMContentLoaded', function () {
+            // Add to cart functionality - now opens modal
             document.querySelectorAll('.add-to-cart').forEach(button => {
-                button.addEventListener('click', function() {
+                button.addEventListener('click', function () {
                     const productId = this.getAttribute('data-product-id');
                     const productName = this.getAttribute('data-product-name');
-                    addToCart(productId, productName, false);
+                    openProductModal(productId, productName, false);
                 });
             });
 
-            // Buy Now functionality
+            // Buy Now functionality - now opens modal
             document.querySelectorAll('.buy-now-btn').forEach(button => {
-                button.addEventListener('click', function() {
+                button.addEventListener('click', function () {
                     const productId = this.getAttribute('data-product-id');
                     const productName = this.getAttribute('data-product-name');
-                    addToCart(productId, productName, true);
+                    openProductModal(productId, productName, true);
                 });
             });
         });

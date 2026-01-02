@@ -53,6 +53,10 @@ Route::get('/products', [ProductController::class, 'index'])->name('products.ind
 Route::get('/products/{slug}', [ProductController::class, 'show'])->name('products.show');
 Route::post('/products/filter', [ProductController::class, 'filterProducts'])->name('products.filter');
 
+// API route for product details (for modal)
+Route::get('/api/products/{id}', [ProductController::class, 'getProductDetails'])->name('api.products.show');
+
+
 // Cart routes
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
