@@ -68,7 +68,16 @@ class ProductController extends Controller
     {
         $product = Product::with('category')->where('slug', $slug)->where('is_active', true)->firstOrFail();
 
-        return view('products.show', compact('product'));
+        // Get related products from the same category (excluding current product)
+        $relatedProducts = Product::with('category')
+            ->where('category_id', $product->category_id)
+            ->where('id', '!=', $product->id)
+            ->where('is_active', true)
+            ->inRandomOrder()
+            ->limit(8)
+            ->get();
+
+        return view('products.show', compact('product', 'relatedProducts'));
     }
 
     public function filterProducts(Request $request)
