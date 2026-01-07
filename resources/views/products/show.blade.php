@@ -150,11 +150,7 @@
                                     class="w-10 h-10 flex items-center justify-center border border-gray-300 rounded-r-md bg-gray-100">+</button>
                             </div>
                         </div>
-                        <!-- Description -->
-                    <div class="mb-6">
-                        <h3 class="text-lg font-semibold text-gray-900 mb-2">Description</h3>
-                        <p class="text-gray-700">{{ $product->description }}</p>
-                    </div>
+                      
 
                         <div class="flex gap-4">
                             <button id="add-to-cart"
@@ -176,6 +172,12 @@
                                 </button>
                 @endif
                                </div>
+                               
+                    </div>
+                      <!-- Description -->
+                    <div class="mb-6">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-2">Description</h3>
+                        <p class="text-gray-700">{{ $product->description }}</p>
                     </div>
                 </div>
             </div>
