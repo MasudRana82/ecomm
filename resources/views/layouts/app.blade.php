@@ -73,7 +73,7 @@
 <body class="font-sans antialiased bg-gray-50">
     <div class="min-h-screen">
         <!-- Header Section -->
-        <header class="bg-gray-300 shadow-sm top-0 z-50">
+        <header class="sticky top-0 bg-gray-300 shadow-sm z-50">
             <!-- Top orange bar -->
             {{-- <div class="bg-custom-orange text-white">
                 <div class="container mx-auto px-4 py-1 text-center text-sm">
