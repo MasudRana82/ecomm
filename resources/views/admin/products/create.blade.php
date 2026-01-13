@@ -107,8 +107,9 @@
             <div class="space-y-6 m-5">
                 <div>
                     <label for="description" class="block text-sm font-medium text-gray-700">Description *</label>
-                    <textarea name="description" id="description" rows="4" required
-                        class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 mt-1">{{ old('description') }}</textarea>
+                    <input type="hidden" name="description" id="description-hidden" value="{{ old('description') }}">
+                    <div id="description-editor" style="height: 300px; background: white;"
+                        class="border border-gray-300 rounded-md mt-1"></div>
                     @error('description')
                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                     @enderror
@@ -180,8 +181,54 @@
     </form>
     </div>
 
+    <!-- Quill WYSIWYG Editor -->
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // Initialize Quill Editor
+            var quill = new Quill('#description-editor', {
+                theme: 'snow',
+                modules: {
+                    toolbar: [
+                        [{
+                            'header': [1, 2, 3, 4, 5, 6, false]
+                        }],
+                        ['bold', 'italic', 'underline', 'strike'],
+                        [{
+                            'list': 'ordered'
+                        }, {
+                            'list': 'bullet'
+                        }],
+                        [{
+                            'align': []
+                        }],
+                        ['link'],
+                        ['clean']
+                    ]
+                },
+                placeholder: 'Write product description here...'
+            });
+
+            // Sync Quill content with hidden input
+            var hiddenInput = document.getElementById('description-hidden');
+
+            // Set initial content if exists
+            if (hiddenInput.value) {
+                quill.root.innerHTML = hiddenInput.value;
+            }
+
+            // Update hidden input on text change
+            quill.on('text-change', function() {
+                hiddenInput.value = quill.root.innerHTML;
+            });
+
+            // Before form submit, ensure hidden input is updated
+            document.querySelector('form').addEventListener('submit', function() {
+                hiddenInput.value = quill.root.innerHTML;
+            });
+
             const colorsInput = document.getElementById('colors');
             const colorImagesSection = document.getElementById('color-images-section');
             const colorImagesContainer = document.getElementById('color-images-container');
