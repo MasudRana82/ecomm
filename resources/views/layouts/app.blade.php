@@ -96,7 +96,9 @@
 
                     <!-- Logo (Centered on mobile, left on desktop) -->
                     <div class="text-2xl font-bold custom-orange md:flex-none flex-1 text-center md:text-left">
-                        <a href="{{ route('home') }}">বস্ত্র ভিলা</a>
+                        <a href="{{ route('home') }}">
+    <img src="{{ asset('storage/logo/logo.png') }}" alt="বস্ত্র ভিলা" class="h-16 md:h-15 inline-block">
+</a>
                     </div>
 
                     <!-- Search Bar (Desktop only) -->

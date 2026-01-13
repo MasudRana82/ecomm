@@ -17,7 +17,7 @@
                         </div>
                         <div class="ml-4">
                             <h3 class="text-lg font-medium text-gray-900">Address</h3>
-                            <p class="text-gray-600">123 Main Street, Dhaka, Bangladesh</p>
+                            <p class="text-gray-600">বস্ত্র ভিলা - Vastra Villa, Rangamati, Bangladesh</p>
                         </div>
                     </div>
                     
@@ -27,7 +27,8 @@
                         </div>
                         <div class="ml-4">
                             <h3 class="text-lg font-medium text-gray-900">Phone</h3>
-                            <p class="text-gray-600">+880 123 456 7890</p>
+                            <p class="text-gray-600">+8801617-512307
+</p>
                         </div>
                     </div>
                     
@@ -37,11 +38,11 @@
                         </div>
                         <div class="ml-4">
                             <h3 class="text-lg font-medium text-gray-900">Email</h3>
-                            <p class="text-gray-600">support@ghorerbazar.com</p>
+                            <p class="text-gray-600">shop@vastraavillaa.com</p>
                         </div>
                     </div>
                     
-                    <div class="flex items-start">
+                    {{-- <div class="flex items-start">
                         <div class="flex-shrink-0 h-10 w-10 rounded-full bg-custom-orange flex items-center justify-center">
                             <i class="fas fa-clock text-white"></i>
                         </div>
@@ -51,20 +52,20 @@
                             <p class="text-gray-600">Saturday: 10:00 AM - 4:00 PM</p>
                             <p class="text-gray-600">Sunday: Closed</p>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
                 
                 <!-- Social Media -->
                 <div class="mt-8">
                     <h3 class="text-lg font-medium text-gray-900 mb-4">Follow Us</h3>
                     <div class="flex space-x-4">
-                        <a href="#" class="h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center hover:bg-custom-orange hover:text-white transition-colors">
+                        <a href="https://www.facebook.com/vastravilla" class="h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center hover:bg-custom-orange hover:text-white transition-colors">
                             <i class="fab fa-facebook-f"></i>
                         </a>
-                        <a href="#" class="h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center hover:bg-custom-orange hover:text-white transition-colors">
+                        <a href="https://www.instagram.com/vastravilla" class="h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center hover:bg-custom-orange hover:text-white transition-colors">
                             <i class="fab fa-instagram"></i>
                         </a>
-                        <a href="#" class="h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center hover:bg-custom-orange hover:text-white transition-colors">
+                        <a href="https://www.youtube.com/@vastraavilla" class="h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center hover:bg-custom-orange hover:text-white transition-colors">
                             <i class="fab fa-youtube"></i>
                         </a>
                     </div>

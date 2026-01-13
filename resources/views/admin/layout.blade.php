@@ -18,7 +18,7 @@
 
     <style>
         body {
-            font-family: 'Hind Siliguri', sans-serif;
+            font-family: 'Hind Siliguri';
         }
     </style>
 </head>
