@@ -29,10 +29,35 @@
                                         <!-- Product Info -->
                                         <div class="ml-4 flex-1">
                                             <div class="flex justify-between">
-                                                <div>
+                                                <div class="flex-1">
                                                     <h3 class="text-base font-medium text-gray-900">
                                                         {{ $item->product->name }}</h3>
-                                                    <p class="mt-1 text-sm text-gray-500">Qty: {{ $item->quantity }}</p>
+
+                                                    <!-- Quantity Controls -->
+                                                    <div class="flex items-center mt-2 mb-2">
+                                                        <label class="text-sm text-gray-500 mr-2">Qty:</label>
+                                                        <div class="flex items-center border border-gray-300 rounded-md">
+                                                            <button type="button"
+                                                                class="decrease-qty w-8 h-8 flex items-center justify-center bg-gray-100 hover:bg-gray-200 rounded-l-md transition-colors"
+                                                                data-item-id="{{ $item->id }}"
+                                                                data-current-qty="{{ $item->quantity }}">
+                                                                <i class="fas fa-minus text-xs"></i>
+                                                            </button>
+                                                            <input type="number"
+                                                                class="quantity-input w-12 h-8 text-center border-x border-gray-300 focus:outline-none"
+                                                                value="{{ $item->quantity }}" min="1"
+                                                                max="{{ $item->product->quantity }}"
+                                                                data-item-id="{{ $item->id }}" readonly>
+                                                            <button type="button"
+                                                                class="increase-qty w-8 h-8 flex items-center justify-center bg-gray-100 hover:bg-gray-200 rounded-r-md transition-colors"
+                                                                data-item-id="{{ $item->id }}"
+                                                                data-current-qty="{{ $item->quantity }}"
+                                                                data-max-qty="{{ $item->product->quantity }}">
+                                                                <i class="fas fa-plus text-xs"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+
                                                     @if ($item->color)
                                                         <p class="text-sm text-gray-500">Color: {{ $item->color }}</p>
                                                     @endif
@@ -41,7 +66,9 @@
                                                     @endif
                                                 </div>
                                                 <div class="flex flex-col items-end">
-                                                    <p class="text-base font-medium text-gray-900">
+                                                    <p class="text-base font-medium text-gray-900 item-total"
+                                                        data-item-id="{{ $item->id }}"
+                                                        data-price="{{ $item->price }}">
                                                         ৳{{ number_format($item->price * $item->quantity, 2) }}</p>
                                                     <button type="button" data-item-id="{{ $item->id }}"
                                                         class="remove-item mt-2 text-red-600 hover:text-red-800 text-sm">
@@ -88,14 +115,14 @@
                                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     <div class="sm:col-span-2">
                                         <label for="shipping_name"
-                                            class="block text-sm font-medium text-gray-700">Name</label>
+                                            class="block text-sm font-medium text-gray-700">নাম</label>
                                         <input type="text" name="shipping_address[name]" id="shipping_name" required
                                             class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2">
                                     </div>
 
                                     <div class="sm:col-span-2">
                                         <label for="shipping_address"
-                                            class="block text-sm font-medium text-gray-700">Address</label>
+                                            class="block text-sm font-medium text-gray-700">ঠিকানা</label>
                                         <input type="text" name="shipping_address[address]" id="shipping_address"
                                             required
                                             class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2">
@@ -103,14 +130,14 @@
 
                                     <div>
                                         <label for="shipping_city"
-                                            class="block text-sm font-medium text-gray-700">City</label>
+                                            class="block text-sm font-medium text-gray-700">জেলা</label>
                                         <input type="text" name="shipping_address[city]" id="shipping_city" required
                                             class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2">
                                     </div>
 
                                     <div>
-                                        <label for="shipping_phone" class="block text-sm font-medium text-gray-700">Phone
-                                            Number</label>
+                                        <label for="shipping_phone" class="block text-sm font-medium text-gray-700">মোবাইল
+                                            নম্বর</label>
                                         <input type="tel" name="shipping_address[phone]" id="shipping_phone" required
                                             class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2">
                                     </div>
@@ -151,7 +178,8 @@
                                         </div>
 
                                         <div>
-                                            <label for="billing_phone" class="block text-sm font-medium text-gray-700">Phone
+                                            <label for="billing_phone"
+                                                class="block text-sm font-medium text-gray-700">Phone
                                                 Number</label>
                                             <input type="tel" name="billing_address[phone]" id="billing_phone"
                                                 class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2">
@@ -246,6 +274,77 @@
                     }
                 });
             });
+
+            // Quantity increase/decrease handlers
+            document.querySelectorAll('.increase-qty').forEach(button => {
+                button.addEventListener('click', function() {
+                    const itemId = this.getAttribute('data-item-id');
+                    const maxQty = parseInt(this.getAttribute('data-max-qty'));
+                    const input = document.querySelector(
+                        `.quantity-input[data-item-id="${itemId}"]`);
+                    const currentQty = parseInt(input.value);
+
+                    if (currentQty < maxQty) {
+                        updateQuantity(itemId, currentQty + 1);
+                    } else {
+                        alert(`Maximum available quantity is ${maxQty}`);
+                    }
+                });
+            });
+
+            document.querySelectorAll('.decrease-qty').forEach(button => {
+                button.addEventListener('click', function() {
+                    const itemId = this.getAttribute('data-item-id');
+                    const input = document.querySelector(
+                        `.quantity-input[data-item-id="${itemId}"]`);
+                    const currentQty = parseInt(input.value);
+
+                    if (currentQty > 1) {
+                        updateQuantity(itemId, currentQty - 1);
+                    }
+                });
+            });
+
+            function updateQuantity(itemId, newQuantity) {
+                fetch('{{ route('cart.update') }}', {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
+                                'content')
+                        },
+                        body: JSON.stringify({
+                            cart_id: itemId,
+                            quantity: newQuantity
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            // Update the quantity input
+                            const input = document.querySelector(`.quantity-input[data-item-id="${itemId}"]`);
+                            input.value = newQuantity;
+
+                            // Update the item total
+                            const itemTotal = document.querySelector(`.item-total[data-item-id="${itemId}"]`);
+                            const price = parseFloat(itemTotal.getAttribute('data-price'));
+                            itemTotal.textContent = '৳' + (price * newQuantity).toFixed(2);
+
+                            // Update cart count in header
+                            const cartCountEl = document.getElementById('cart-count');
+                            if (cartCountEl) cartCountEl.textContent = data.cart_count;
+
+                            // Reload page to update totals
+                            location.reload();
+                        } else {
+                            alert('Error: ' + data.message);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('An error occurred while updating quantity');
+                    });
+            }
 
             function removeFromCart(itemId) {
                 fetch(`{{ route('cart.remove', '') }}/${itemId}`, {

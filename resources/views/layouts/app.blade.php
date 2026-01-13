@@ -20,7 +20,7 @@
         rel="stylesheet">
     <style>
         body {
-            font-family: 'Hind Siliguri', sans-serif;
+            font-family: 'Hind Siliguri';
         }
 
         .custom-orange {
@@ -294,7 +294,7 @@
                                 class="text-gray-400 hover:text-white"><i class="fab fa-facebook-f"></i></a>
                             <a href="https://www.instagram.com/vastraavillaaa"
                                 class="text-gray-400 hover:text-white"><i class="fab fa-instagram"></i></a>
-                            <a href="https://www.youtube.com/@Vastraavilla" class="text-gray-400 hover:text-white"><i
+                            <a href="https://www.youtube.com/@vastraavillaa" class="text-gray-400 hover:text-white"><i
                                     class="fab fa-youtube"></i></a>
                         </div>
                     </div>

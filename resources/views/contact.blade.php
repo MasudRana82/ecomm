@@ -65,7 +65,7 @@
                         <a href="https://www.instagram.com/vastravilla" class="h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center hover:bg-custom-orange hover:text-white transition-colors">
                             <i class="fab fa-instagram"></i>
                         </a>
-                        <a href="https://www.youtube.com/@vastraavilla" class="h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center hover:bg-custom-orange hover:text-white transition-colors">
+                        <a href="https://www.youtube.com/@vastraavillaa" class="h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center hover:bg-custom-orange hover:text-white transition-colors">
                             <i class="fab fa-youtube"></i>
                         </a>
                     </div>
