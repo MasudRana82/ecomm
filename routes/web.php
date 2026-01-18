@@ -111,6 +111,10 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::get('payment-gateways/{id}/edit', [App\Http\Controllers\PaymentGatewayController::class, 'edit'])->name('admin.payment-gateways.edit');
     Route::put('payment-gateways/{id}', [App\Http\Controllers\PaymentGatewayController::class, 'update'])->name('admin.payment-gateways.update');
     Route::patch('payment-gateways/{id}/toggle', [App\Http\Controllers\PaymentGatewayController::class, 'toggle'])->name('admin.payment-gateways.toggle');
+
+    // Site Settings Routes
+    Route::get('settings', [App\Http\Controllers\SiteSettingController::class, 'index'])->name('admin.settings.index');
+    Route::put('settings/logo', [App\Http\Controllers\SiteSettingController::class, 'updateLogo'])->name('admin.settings.update-logo');
 });
 
 // Payment routes
