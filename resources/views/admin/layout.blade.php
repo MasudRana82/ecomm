@@ -57,6 +57,12 @@
                         <i class="fas fa-shopping-cart w-6"></i>
                         <span class="font-medium">Orders</span>
                     </a>
+
+                    <a href="{{ route('admin.payment-gateways.index') }}"
+                        class="flex items-center px-4 py-3 rounded-lg transition-colors duration-200 {{ request()->routeIs('admin.payment-gateways.*') ? 'bg-blue-600 text-white shadow-lg' : 'text-slate-300 hover:bg-slate-800 hover:text-white' }}">
+                        <i class="fas fa-credit-card w-6"></i>
+                        <span class="font-medium">Payment Gateways</span>
+                    </a>
                 </nav>
 
                 <div class="p-4 border-t border-slate-800">

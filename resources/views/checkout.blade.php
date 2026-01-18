@@ -193,13 +193,67 @@
                                 <h3 class="text-md font-medium text-gray-900 mb-4">Payment Method</h3>
 
                                 <div class="space-y-4">
-                                    <div class="flex items-center">
+                                    <!-- Cash on Delivery (Always Available) -->
+                                    <div
+                                        class="flex items-center p-4 border border-gray-300 rounded-lg hover:border-custom-orange transition-colors">
                                         <input id="payment_method_cash" name="payment_method" type="radio"
                                             value="cash_on_delivery" required checked
                                             class="h-4 w-4 text-custom-orange focus:ring-custom-orange border-gray-300">
                                         <label for="payment_method_cash"
-                                            class="ml-3 block text-sm font-medium text-gray-700">Cash on Delivery</label>
+                                            class="ml-3 flex items-center flex-1 cursor-pointer">
+                                            <i class="fas fa-money-bill-wave text-green-600 text-xl mr-3"></i>
+                                            <span class="text-sm font-medium text-gray-700">Cash on Delivery</span>
+                                        </label>
                                     </div>
+
+                                    @php
+                                        $enabledGateways = \App\Models\PaymentGatewaySetting::getEnabledGateways();
+                                    @endphp
+
+                                    @foreach ($enabledGateways as $gateway)
+                                        @if ($gateway->gateway_name === 'stripe')
+                                            <!-- Stripe Payment -->
+                                            <div
+                                                class="flex items-center p-4 border border-gray-300 rounded-lg hover:border-custom-orange transition-colors">
+                                                <input id="payment_method_stripe" name="payment_method" type="radio"
+                                                    value="stripe" required
+                                                    class="h-4 w-4 text-custom-orange focus:ring-custom-orange border-gray-300">
+                                                <label for="payment_method_stripe"
+                                                    class="ml-3 flex items-center flex-1 cursor-pointer">
+                                                    <i class="fab fa-stripe text-indigo-600 text-xl mr-3"></i>
+                                                    <span class="text-sm font-medium text-gray-700">Credit/Debit Card
+                                                        (Stripe)</span>
+                                                </label>
+                                            </div>
+                                        @elseif($gateway->gateway_name === 'sslcommerz')
+                                            <!-- SSLCommerz Payment -->
+                                            <div
+                                                class="flex items-center p-4 border border-gray-300 rounded-lg hover:border-custom-orange transition-colors">
+                                                <input id="payment_method_sslcommerz" name="payment_method"
+                                                    type="radio" value="sslcommerz" required
+                                                    class="h-4 w-4 text-custom-orange focus:ring-custom-orange border-gray-300">
+                                                <label for="payment_method_sslcommerz"
+                                                    class="ml-3 flex items-center flex-1 cursor-pointer">
+                                                    <i class="fas fa-shield-alt text-green-600 text-xl mr-3"></i>
+                                                    <span class="text-sm font-medium text-gray-700">SSLCommerz (Card/Mobile
+                                                        Banking)</span>
+                                                </label>
+                                            </div>
+                                        @elseif($gateway->gateway_name === 'bkash')
+                                            <!-- Bkash Payment -->
+                                            <div
+                                                class="flex items-center p-4 border border-gray-300 rounded-lg hover:border-custom-orange transition-colors">
+                                                <input id="payment_method_bkash" name="payment_method" type="radio"
+                                                    value="bkash" required
+                                                    class="h-4 w-4 text-custom-orange focus:ring-custom-orange border-gray-300">
+                                                <label for="payment_method_bkash"
+                                                    class="ml-3 flex items-center flex-1 cursor-pointer">
+                                                    <i class="fas fa-mobile-alt text-pink-600 text-xl mr-3"></i>
+                                                    <span class="text-sm font-medium text-gray-700">Bkash</span>
+                                                </label>
+                                            </div>
+                                        @endif
+                                    @endforeach
                                 </div>
                             </div>
 

@@ -105,6 +105,12 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
 
     // Invoice route
     Route::get('orders/{id}/invoice', [OrderAdminController::class, 'invoice'])->name('admin.orders.invoice');
+
+    // Payment Gateway Management Routes
+    Route::get('payment-gateways', [App\Http\Controllers\PaymentGatewayController::class, 'index'])->name('admin.payment-gateways.index');
+    Route::get('payment-gateways/{id}/edit', [App\Http\Controllers\PaymentGatewayController::class, 'edit'])->name('admin.payment-gateways.edit');
+    Route::put('payment-gateways/{id}', [App\Http\Controllers\PaymentGatewayController::class, 'update'])->name('admin.payment-gateways.update');
+    Route::patch('payment-gateways/{id}/toggle', [App\Http\Controllers\PaymentGatewayController::class, 'toggle'])->name('admin.payment-gateways.toggle');
 });
 
 // Payment routes
