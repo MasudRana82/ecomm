@@ -177,7 +177,8 @@
                     <!-- Description -->
                     <div class="mb-6">
                         <h3 class="text-lg font-semibold text-gray-900 mb-2">Description</h3>
-                        <div class="text-gray-700 prose max-w-none">{!! $product->description !!}</div>
+                        <div class="text-gray-700 prose max-w-none" style="font-family: 'Hind Siliguri', sans-serif;">
+                            {!! $product->description !!}</div>
                     </div>
                 </div>
             </div>
