@@ -58,7 +58,7 @@
                     </a>
 
                     <div class="p-4">
-                        <h3 class="font-semibold text-gray-800 truncate">{{ $product->name }}</h3>
+                        <h3 class="font-semibold text-gray-800 truncate" style="font-family: 'Hind Siliguri', sans-serif;">{{ $product->name }}</h3>
 
                         @if ($product->compare_price > $product->price)
                             <p class="text-lg font-bold custom-orange">

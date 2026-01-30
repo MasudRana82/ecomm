@@ -28,8 +28,9 @@
                         <div class="text-sm font-medium text-gray-900">{{ $order->order_number }}</div>
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap">
-                        <div class="text-sm text-gray-900">{{ $order->user->name ?? 'N/A' }}</div>
-                        <div class="text-sm text-gray-500">{{ $order->user->email ?? 'N/A' }}</div>
+                        <p>{{ $order->shipping_address['name'] ?? trim(($order->shipping_address['first_name'] ?? '') . ' ' . ($order->shipping_address['last_name'] ?? '')) }}
+                        </p>
+                        <p>Phone: {{ $order->shipping_address['phone'] ?? '' }}</p>
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                         ৳{{ number_format($order->total, 2) }}
