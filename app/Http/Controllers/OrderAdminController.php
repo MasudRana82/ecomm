@@ -8,9 +8,23 @@ use Illuminate\Http\Request;
 
 class OrderAdminController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $orders = Order::with('user')->orderBy('created_at', 'desc')->paginate(15);
+        $query = Order::with('user');
+
+        if ($request->filled('from_date')) {
+            $query->whereDate('created_at', '>=', $request->from_date);
+        }
+
+        if ($request->filled('to_date')) {
+            $query->whereDate('created_at', '<=', $request->to_date);
+        }
+
+        $orders = $query->orderBy('created_at', 'desc')->paginate(15);
+
+        // Append query parameters to pagination links
+        $orders->appends($request->all());
+
         return view('admin.orders.index', compact('orders'));
     }
 
