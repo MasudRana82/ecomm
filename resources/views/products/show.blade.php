@@ -79,7 +79,7 @@
 
 
                     <!-- Additional Info -->
-                    <div class="mb-6">
+                    {{-- <div class="mb-6">
                         <div class="grid grid-cols-2 gap-4">
                             <div>
                                 <p class="text-sm text-gray-500">SKU</p>
@@ -96,7 +96,7 @@
                                 </p>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
 
                     <!-- Options (Color & Size) -->
                     @if ($product->colors && count($product->colors) > 0)
