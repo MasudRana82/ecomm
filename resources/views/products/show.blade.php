@@ -69,7 +69,7 @@
                                 <span
                                     class="text-xl font-normal text-gray-500 line-through ml-2">৳{{ number_format($product->compare_price, 2) }}</span>
                             </p>
-                            <p class="text-sm text-red-500 font-semibold mt-1">Save {{ $product->discount_percentage }}%
+                            <p class="text-sm text-red-500 font-semibold mt-1">Save {{ $product->compare_price - $product->price }} ৳
                             </p>
                         @else
                             <p class="text-3xl font-bold custom-orange">৳{{ number_format($product->price, 2) }}</p>

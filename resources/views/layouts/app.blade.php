@@ -18,7 +18,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
+        
     <style>
+        * {
+            font-family: 'Hind Siliguri', sans-serif;
+        }
         
         body {
             font-family: 'Hind Siliguri';
@@ -287,7 +291,11 @@
             <div class="container mx-auto px-4 py-10">
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
                     <div>
-                        <h3 class="text-lg font-bold custom-orange mb-4">বস্ত্র ভিলা</h3>
+                        <div class="text-2xl font-bold custom-orange md:flex-none  md:text-left">
+                        <a href="{{ route('home') }}">
+                            <img src="{{ site_logo() }}" alt="বস্ত্র ভিলা" class="h-16 md:h-15 inline-block">
+                        </a>
+                    </div>
                         <p class="text-gray-400">রাংগামাটির তৈরি পিনন,থামি,গুজরাটি ব্যাগ এবং তাতের থ্রিপিস ও অলংকার
                             পুর্ন কাপড়ের বিশ্বস্থ প্রতিষ্ঠান।</p>
                         <div class="flex space-x-4 mt-4">
